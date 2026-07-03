@@ -11,6 +11,12 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Never inline small script chunks: the production CSP is
+      // script-src 'self' (no unsafe-inline), so every script must be an
+      // external file — inlined modules would be silently blocked.
+      assetsInlineLimit: 0,
+    },
   },
   fonts: [
     {
