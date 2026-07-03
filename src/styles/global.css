@@ -67,6 +67,21 @@
 
   body {
     background-color: var(--color-bg);
+    /* Depth layers (owner-approved deviation from the flat void): a faint
+       teal aurora up top, an ambient cyan pocket right, and a barely-there
+       vertical ramp. All tones stay within the #0c–#12 dark family. */
+    background-image:
+      radial-gradient(
+        circle at 50% -10%,
+        rgba(32, 94, 112, 0.16),
+        transparent 44rem
+      ),
+      radial-gradient(
+        circle at 78% 16%,
+        rgba(45, 145, 170, 0.07),
+        transparent 24rem
+      ),
+      linear-gradient(180deg, #121313 0%, #101111 42%, #0c0e0f 100%);
     color: var(--color-text);
     font-family: var(--font-mono);
     font-synthesis: none;
@@ -78,6 +93,33 @@
        ENS and wallet values stay copyable through the COPY buttons. */
     user-select: none;
     -webkit-user-select: none;
+  }
+
+  /* Film grain — static SVG noise tile, screen-blended, fixed. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* 4px CRT micro-grid, extremely faint. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+    background-size: 4px 4px;
+    opacity: 0.18;
   }
 
   h1,

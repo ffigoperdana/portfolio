@@ -14,6 +14,14 @@ import Icon from './Icon.astro';
     <p class="text-label uppercase text-text-muted" data-resume-title>RESUME</p>
     <div class="flex items-center gap-2">
       <a
+        href="/resume/"
+        data-resume-permalink
+        class="text-label flex min-h-10 items-center gap-2 border border-line px-3 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+      >
+        <Icon name="chain" size={13} />
+        PERMALINK
+      </a>
+      <a
         href="#"
         download
         data-resume-download

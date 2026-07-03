@@ -53,6 +53,7 @@ const resumes = site.resumes.filter((r) => r.available);
                   href={r.path}
                   data-resume-trigger
                   data-resume-label={r.label}
+                  data-resume-slug={r.slug}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="text-label flex min-h-12 items-center justify-between gap-3 border-b border-line px-4 uppercase text-text-muted transition-colors duration-200 last:border-b-0 hover:bg-surface hover:text-accent"

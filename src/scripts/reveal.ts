@@ -28,32 +28,53 @@ function axisOf(value: string | undefined): Axis {
 }
 
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  // Load-time stagger groups
+  // Load-time reveals wait for the boot overlay (if present on this page)
+  // so the hero entrance isn't wasted behind it. boot.ts always announces,
+  // even when it skips; the timeout is a safety net against ordering races.
+  const runLoadReveals = (): void => {
+    for (const group of document.querySelectorAll<HTMLElement>(
+      '[data-reveal-load]',
+    )) {
+      [...group.children].forEach((child, i) => {
+        const el = child as HTMLElement;
+        animate(
+          el,
+          { opacity: 1, transform: TO.y },
+          { duration: 0.4, delay: i * 0.06, ease: EASE },
+        );
+      });
+    }
+    for (const el of document.querySelectorAll<HTMLElement>(
+      '[data-reveal-fade]',
+    )) {
+      animate(el, { opacity: 1 }, { duration: 0.5, delay: 0.12, ease: 'easeOut' });
+    }
+  };
+
+  // Hide load-reveal targets up front (no-JS users never reach this branch).
   for (const group of document.querySelectorAll<HTMLElement>(
     '[data-reveal-load]',
   )) {
-    [...group.children].forEach((child, i) => {
-      const el = child as HTMLElement;
-      el.style.opacity = '0';
-      el.style.transform = FROM.y;
-      animate(
-        el,
-        { opacity: 1, transform: TO.y },
-        { duration: 0.4, delay: i * 0.06, ease: EASE },
-      );
-    });
+    for (const child of group.children) {
+      (child as HTMLElement).style.opacity = '0';
+      (child as HTMLElement).style.transform = FROM.y;
+    }
+  }
+  for (const el of document.querySelectorAll<HTMLElement>('[data-reveal-fade]')) {
+    el.style.opacity = '0';
   }
 
-  // Load-time opacity fade (no transform — physics owns it)
-  for (const el of document.querySelectorAll<HTMLElement>(
-    '[data-reveal-fade]',
-  )) {
-    el.style.opacity = '0';
-    animate(
-      el,
-      { opacity: 1 },
-      { duration: 0.5, delay: 0.12, ease: 'easeOut' },
-    );
+  if (document.querySelector('[data-boot]') && !window.__fgdevBooted) {
+    let started = false;
+    const go = (): void => {
+      if (started) return;
+      started = true;
+      runLoadReveals();
+    };
+    window.addEventListener('fgdev:booted', go, { once: true });
+    window.setTimeout(go, 2600);
+  } else {
+    runLoadReveals();
   }
 
   // Scroll-triggered group staggers

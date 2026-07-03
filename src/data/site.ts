@@ -1,5 +1,7 @@
 export interface ResumeVariant {
   label: string;
+  /** URL slug for the shareable page /resume/<slug>/ */
+  slug: string;
   /** Path under public/ */
   path: string;
   /** Not-yet-published variants render as disabled/hidden */
@@ -63,17 +65,20 @@ export const site: SiteConfig = {
   resumes: [
     {
       label: 'RESUME_DEVOPS',
+      slug: 'devops',
       path: '/resume/figo-perdana-devops.pdf',
       available: true,
     },
     {
       label: 'RESUME_IT_INFRA',
+      slug: 'it-infra',
       path: '/resume/figo-perdana-it-infra.pdf',
       available: true,
     },
     {
       // TODO_CONTENT: publish when the Software Engineer CV is ready
       label: 'RESUME_SOFTWARE_ENGINEER',
+      slug: 'software-engineer',
       path: '/resume/figo-perdana-software-engineer.pdf',
       available: false,
     },

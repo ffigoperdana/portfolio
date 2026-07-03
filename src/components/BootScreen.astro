@@ -1,0 +1,44 @@
+---
+// First-visit boot sequence (home page only). Ships [hidden]; scripts/boot.ts
+// shows and plays it ONLY when: first visit this session AND no reduced-motion
+// AND JS is available — so no-JS users and returning navigation never see it.
+// Skippable with any key / click / tap. Total runtime ≤ ~1.6s.
+---
+
+<div
+  data-boot
+  hidden
+  aria-hidden="true"
+  class="fixed inset-0 z-[200] flex items-center justify-center bg-bg px-4"
+>
+  <div class="w-full max-w-[560px] border border-line bg-surface">
+    <div class="flex items-center justify-between border-b border-line px-4 py-2.5">
+      <span class="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-text-muted">
+        FGDEV.SYS // BOOT
+      </span>
+      <span class="flex gap-1.5" aria-hidden="true">
+        <span class="h-2.5 w-2.5 rounded-full bg-line"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-line"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-accent"></span>
+      </span>
+    </div>
+    <div class="p-5">
+      <div
+        data-boot-lines
+        class="min-h-[8.5rem] whitespace-pre-wrap font-mono text-sm leading-relaxed text-text-muted"
+      >
+      </div>
+      <div class="mt-4 flex items-center gap-3 font-mono text-sm">
+        <span data-boot-bar class="tracking-tighter text-accent">[------------------------]</span>
+        <span data-boot-pct class="text-xs text-text-muted">0%</span>
+      </div>
+      <p class="mt-5 font-mono text-[11px] uppercase tracking-[0.2em] text-text-muted opacity-60">
+        PRESS ANY KEY TO SKIP
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/boot';
+</script>

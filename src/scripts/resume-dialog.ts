@@ -10,6 +10,7 @@ function initResumeDialog(): void {
   const frame = dialog.querySelector<HTMLIFrameElement>('[data-resume-frame]');
   const title = dialog.querySelector<HTMLElement>('[data-resume-title]');
   const download = dialog.querySelector<HTMLAnchorElement>('[data-resume-download]');
+  const permalink = dialog.querySelector<HTMLAnchorElement>('[data-resume-permalink]');
   if (!frame || !title || !download) return;
 
   const close = (): void => dialog.close();
@@ -30,6 +31,9 @@ function initResumeDialog(): void {
       title.textContent = link.dataset.resumeLabel ?? 'RESUME';
       frame.src = `${href}#toolbar=0&navpanes=0`;
       download.href = href;
+      if (permalink && link.dataset.resumeSlug) {
+        permalink.href = `/resume/${link.dataset.resumeSlug}/`;
+      }
       dialog.showModal();
     });
   }

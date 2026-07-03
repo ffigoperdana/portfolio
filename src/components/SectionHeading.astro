@@ -13,8 +13,15 @@ const { id, title, cursor = false, meta } = Astro.props;
 ---
 
 <div class="mb-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-  <h2 id={`${id}-h`} class="text-headline-lg text-text-bright">
-    {title}{cursor && <span class="terminal-cursor" aria-hidden="true" />}
+  <!-- aria-label keeps the accessible name stable while the visible text is
+       typed out by scripts/type-title.ts (skipped without JS / reduced motion) -->
+  <h2
+    id={`${id}-h`}
+    aria-label={title}
+    class="text-headline-lg text-text-bright"
+  >
+    <span data-type-target aria-hidden="true" class="inline-block">{title}</span
+    >{cursor && <span class="terminal-cursor" aria-hidden="true" />}
   </h2>
   {
     meta && (

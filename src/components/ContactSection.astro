@@ -69,6 +69,7 @@ const pending = site.resumes.filter((r) => !r.available);
               href={r.path}
               data-resume-trigger
               data-resume-label={r.label}
+              data-resume-slug={r.slug}
               target="_blank"
               rel="noopener noreferrer"
               class="text-label flex min-h-11 items-center justify-between gap-3 border border-line px-3 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
@@ -89,5 +90,20 @@ const pending = site.resumes.filter((r) => !r.available);
         ))
       }
     </ul>
+  </div>
+
+  <div class="border border-accent bg-surface p-5">
+    <p class="text-label mb-2 uppercase text-accent">INIT_PROJECT</p>
+    <p class="mb-4 font-mono text-sm leading-relaxed text-text-muted">
+      Have a system to build or infrastructure to tame? Compile a project
+      brief in four steps — it lands straight in my inbox.
+    </p>
+    <a
+      href="/start/"
+      class="text-label flex min-h-12 w-full items-center justify-center gap-2 border border-accent bg-accent px-6 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+    >
+      START_A_PROJECT
+      <span aria-hidden="true">&rsaquo;</span>
+    </a>
   </div>
 </div>

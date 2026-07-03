@@ -1,0 +1,80 @@
+---
+// Shareable resume page: /resume/devops/, /resume/it-infra/ — the URL Figo
+// hands to recruiters. Full-height PDF preview + DOWNLOAD; variant tabs
+// switch between published CVs. The PDF file itself stays a plain static
+// asset, so the page works without JS too (iframe is native).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return site.resumes
+    .filter((r) => r.available)
+    .map((resume) => ({ params: { variant: resume.slug }, props: { resume } }));
+}
+
+const { resume } = Astro.props;
+const variants = site.resumes.filter((r) => r.available);
+const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
+---
+
+<BaseLayout
+  title={`Resume (${niceName})`}
+  description={`Resume of ${site.name} — ${site.metaRole}. Preview online or download as PDF.`}
+>
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-10 sm:px-8">
+    <nav aria-label="Breadcrumb">
+      <a
+        href="/"
+        class="text-label inline-flex min-h-11 items-center gap-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+      >
+        <span aria-hidden="true">&larr;</span> cd /home
+      </a>
+    </nav>
+
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="font-mono text-sm text-accent">cat ~/documents/{resume.slug}.pdf</p>
+        <h1 class="text-headline-lg mt-2 text-text-bright">{resume.label}</h1>
+      </div>
+      <a
+        href={resume.path}
+        download
+        class="text-label flex min-h-11 items-center gap-2 border border-accent bg-accent px-6 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+      >
+        <Icon name="download" size={14} />
+        DOWNLOAD_PDF
+      </a>
+    </div>
+
+    <!-- Variant tabs -->
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Resume variants">
+      {
+        variants.map((v) => (
+          <a
+            href={`/resume/${v.slug}/`}
+            aria-current={v.slug === resume.slug ? 'page' : undefined}
+            class:list={[
+              'text-label flex min-h-11 items-center border px-4 uppercase transition-colors duration-200',
+              v.slug === resume.slug
+                ? 'border-accent bg-accent text-on-accent'
+                : 'border-line text-text-muted hover:border-accent hover:text-accent',
+            ]}
+          >
+            {v.label.replace('RESUME_', '')}
+          </a>
+        ))
+      }
+    </div>
+
+    <iframe
+      src={`${resume.path}#toolbar=0&navpanes=0`}
+      title={`${niceName} resume PDF preview`}
+      class="h-[80vh] w-full border border-line bg-surface"></iframe>
+
+    <p class="font-mono text-xs text-text-muted">
+      Preview not rendering (some mobile browsers)? Use DOWNLOAD_PDF above, or
+      <a href={resume.path} class="text-accent underline underline-offset-2">open the raw file</a>.
+    </p>
+  </div>
+</BaseLayout>

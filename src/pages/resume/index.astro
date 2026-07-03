@@ -1,0 +1,60 @@
+---
+// /resume/ — variant chooser for anyone landing on the bare URL.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+
+const available = site.resumes.filter((r) => r.available);
+const pending = site.resumes.filter((r) => !r.available);
+---
+
+<BaseLayout
+  title="Resume"
+  description={`Resume of ${site.name} — ${site.metaRole}. Pick a variant, preview online or download as PDF.`}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-16 sm:px-8">
+    <div>
+      <p class="font-mono text-sm text-accent">ls ~/documents/resume/</p>
+      <h1 class="text-headline-lg mt-2 text-text-bright">RESUME_FILES</h1>
+      <p class="mt-3 max-w-[65ch] font-mono text-sm text-text-muted">
+        Same history, different focus — pick the variant that matches the role.
+      </p>
+    </div>
+
+    <ul class="flex flex-col gap-4">
+      {
+        available.map((r) => (
+          <li>
+            <a
+              href={`/resume/${r.slug}/`}
+              class="group flex min-h-16 items-center justify-between gap-4 border border-line bg-surface px-5 transition-colors duration-200 hover:border-accent"
+            >
+              <span class="text-label uppercase text-text transition-colors duration-200 group-hover:text-text-bright">
+                {r.label}
+              </span>
+              <span class="text-label flex items-center gap-2 uppercase text-text-muted transition-colors duration-200 group-hover:text-accent">
+                PREVIEW
+                <Icon name="arrow-out" size={14} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        pending.map((r) => (
+          <li class="text-label flex min-h-16 items-center justify-between gap-4 border border-dashed border-line px-5 uppercase text-text-muted opacity-60">
+            {r.label}
+            <span class="font-mono">COMPILING&hellip;</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="/"
+      class="text-label inline-flex min-h-11 items-center gap-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+    >
+      <span aria-hidden="true">&larr;</span> cd /home
+    </a>
+  </div>
+</BaseLayout>

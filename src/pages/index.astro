@@ -1,6 +1,7 @@
 ---
 // Home page — all sections live.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BootScreen from '../components/BootScreen.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
@@ -39,6 +40,7 @@ const jsonLd = {
 ---
 
 <BaseLayout jsonLd={jsonLd}>
+  <BootScreen />
   <Hero />
 
   <div class="mx-auto max-w-7xl px-4 sm:px-8">

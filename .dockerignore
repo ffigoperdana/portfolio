@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.git
+.claude
+references
+*.md
+!src/content/**/*.md
+.claude

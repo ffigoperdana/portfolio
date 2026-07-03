@@ -15,7 +15,7 @@ interface Props {
 const { name, roleLine, photo } = Astro.props;
 ---
 
-<div class="relative w-full border border-line bg-surface p-6">
+<div class="id-card-front relative w-full border border-line bg-surface p-6">
   <!-- Punched lanyard slot -->
   <div
     class="mx-auto mb-4 h-2 w-10 border border-line bg-bg"
@@ -136,3 +136,22 @@ const { name, roleLine, photo } = Astro.props;
     </p>
   </div>
 </div>
+
+<style>
+  /* Subtle light pickup (owner request): a soft specular sweep from the
+     top-left, a cyan-tinted border and a shallow depth shadow. Tuned dim —
+     the theme stays dark-mode-only. */
+  .id-card-front {
+    border-color: color-mix(
+      in srgb,
+      var(--color-accent) 40%,
+      var(--color-line)
+    );
+    background-image: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.028),
+      transparent 26%
+    );
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  }
+</style>
