@@ -8,19 +8,49 @@ import Icon from '../../components/Icon.astro';
 import { site } from '../../data/site';
 
 const services = [
-  { key: 'DevOps & CI/CD', desc: 'Pipelines, containerization, IaC — GitLab CI, Docker, K8s, Terraform' },
-  { key: 'Infrastructure & Cloud', desc: 'On-prem & cloud — Proxmox, VMware, AWS, Azure, Alibaba Cloud' },
-  { key: 'Network Engineering', desc: 'Routing, Cisco ACI, MikroTik, SD-WAN, firewalls' },
-  { key: 'Full-Stack Web', desc: 'Laravel, React, Go/Python services, REST APIs' },
-  { key: 'Monitoring & Observability', desc: 'Grafana, Prometheus, Zabbix, alerting, runbooks' },
-  { key: 'Automation & Scripting', desc: 'Ansible playbooks, Bash/Python tooling, scheduled ops' },
+  {
+    key: 'DevOps & CI/CD',
+    desc: 'Pipelines, containerization, IaC — GitLab CI, Docker, K8s, Terraform',
+  },
+  {
+    key: 'Infrastructure & Cloud',
+    desc: 'On-prem & cloud — Proxmox, VMware, AWS, Azure, Alibaba Cloud',
+  },
+  {
+    key: 'Network Engineering',
+    desc: 'Routing, Cisco ACI, MikroTik, SD-WAN, firewalls',
+  },
+  {
+    key: 'Full-Stack Web',
+    desc: 'Laravel, React, Go/Python services, REST APIs',
+  },
+  {
+    key: 'Monitoring & Observability',
+    desc: 'Grafana, Prometheus, Zabbix, alerting, runbooks',
+  },
+  {
+    key: 'Automation & Scripting',
+    desc: 'Ansible playbooks, Bash/Python tooling, scheduled ops',
+  },
 ];
 
 const scopes = [
-  { key: 'Quick Task (< $2.5k)', desc: 'Quick prototypes, MVPs, scripts, specific sub-features' },
-  { key: 'Standard Build ($2.5k – $5k)', desc: 'Core product development, services, integrations' },
-  { key: 'Full System ($5k – $10k)', desc: 'Comprehensive end-to-end build — infra + app' },
-  { key: 'Enterprise ($10k+)', desc: 'Enterprise setups, long-term engagements, deep-tech' },
+  {
+    key: 'Quick Task (< $2.5k)',
+    desc: 'Quick prototypes, MVPs, scripts, specific sub-features',
+  },
+  {
+    key: 'Standard Build ($2.5k – $5k)',
+    desc: 'Core product development, services, integrations',
+  },
+  {
+    key: 'Full System ($5k – $10k)',
+    desc: 'Comprehensive end-to-end build — infra + app',
+  },
+  {
+    key: 'Enterprise ($10k+)',
+    desc: 'Enterprise setups, long-term engagements, deep-tech',
+  },
 ];
 
 const timelines = [
@@ -52,22 +82,35 @@ const steps = [
     </nav>
 
     <noscript>
-      <p class="border border-line bg-surface p-4 font-mono text-sm text-text-muted">
+      <p
+        class="border border-line bg-surface p-4 font-mono text-sm text-text-muted"
+      >
         JavaScript is off — no problem. Email me directly at
-        <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-2">{site.email}</a>
+        <a
+          href={`mailto:${site.email}`}
+          class="text-accent underline underline-offset-2">{site.email}</a
+        >
         with your project details.
       </p>
     </noscript>
 
     <!-- Progress header -->
-    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
+    <div
+      class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4"
+    >
       <p class="text-label uppercase">
         <span class="text-accent">INIT_PROJECT</span>
-        <span class="text-text-muted"> · <span data-step-label>ALL STEPS</span> — </span>
+        <span class="text-text-muted">
+          · <span data-step-label>ALL STEPS</span> —
+        </span>
         <span class="text-text" data-step-name>BRIEF</span>
       </p>
       <div class="flex gap-2" data-step-dots aria-hidden="true">
-        {steps.map(() => <span class="h-2 w-2 rounded-full bg-line transition-colors duration-200" />)}
+        {
+          steps.map(() => (
+            <span class="h-2 w-2 rounded-full bg-line transition-colors duration-200" />
+          ))
+        }
       </div>
     </div>
 
@@ -75,10 +118,16 @@ const steps = [
       <!-- STEP 1 -->
       <section data-step="1" class="flex flex-col gap-6">
         <div>
-          <h1 class="text-headline-lg text-text-bright" tabindex="-1" data-step-heading>
+          <h1
+            class="text-headline-lg text-text-bright"
+            tabindex="-1"
+            data-step-heading
+          >
             WHO_IS_TRANSMITTING?
           </h1>
-          <p class="mt-2 font-mono text-sm text-text-muted">Identify yourself to open the channel.</p>
+          <p class="mt-2 font-mono text-sm text-text-muted">
+            Identify yourself to open the channel.
+          </p>
         </div>
         <label class="flex flex-col gap-2">
           <span class="text-label uppercase text-text-muted">NAME *</span>
@@ -103,7 +152,9 @@ const steps = [
           />
         </label>
         <label class="flex flex-col gap-2">
-          <span class="text-label uppercase text-text-muted">ORGANIZATION (OPTIONAL)</span>
+          <span class="text-label uppercase text-text-muted"
+            >ORGANIZATION (OPTIONAL)</span
+          >
           <input
             type="text"
             name="org"
@@ -117,19 +168,34 @@ const steps = [
       <!-- STEP 2 -->
       <section data-step="2" class="flex flex-col gap-6">
         <div>
-          <h2 class="text-headline-lg text-text-bright" tabindex="-1" data-step-heading>
+          <h2
+            class="text-headline-lg text-text-bright"
+            tabindex="-1"
+            data-step-heading
+          >
             SELECT_TARGET_SYSTEMS
           </h2>
-          <p class="mt-2 font-mono text-sm text-text-muted">Pick one or more domains to deploy into.</p>
+          <p class="mt-2 font-mono text-sm text-text-muted">
+            Pick one or more domains to deploy into.
+          </p>
         </div>
         <div class="flex flex-col gap-3">
           {
             services.map((s) => (
               <label class="flex cursor-pointer items-start gap-4 border border-line bg-surface p-4 transition-colors duration-200 hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-surface-raised">
-                <input type="checkbox" name="domain" value={s.key} class="mt-1 accent-[#9cdef2]" />
+                <input
+                  type="checkbox"
+                  name="domain"
+                  value={s.key}
+                  class="mt-1 accent-[#9cdef2]"
+                />
                 <span>
-                  <span class="block font-mono text-sm font-bold text-text">{s.key}</span>
-                  <span class="mt-0.5 block font-mono text-xs text-text-muted">{s.desc}</span>
+                  <span class="block font-mono text-sm font-bold text-text">
+                    {s.key}
+                  </span>
+                  <span class="mt-0.5 block font-mono text-xs text-text-muted">
+                    {s.desc}
+                  </span>
                 </span>
               </label>
             ))
@@ -140,34 +206,62 @@ const steps = [
       <!-- STEP 3 -->
       <section data-step="3" class="flex flex-col gap-6">
         <div>
-          <h2 class="text-headline-lg text-text-bright" tabindex="-1" data-step-heading>
+          <h2
+            class="text-headline-lg text-text-bright"
+            tabindex="-1"
+            data-step-heading
+          >
             SCOPE_AND_TIMELINE
           </h2>
-          <p class="mt-2 font-mono text-sm text-text-muted">Configure the parameters of this operation.</p>
+          <p class="mt-2 font-mono text-sm text-text-muted">
+            Configure the parameters of this operation.
+          </p>
         </div>
         <fieldset class="flex flex-col gap-3">
-          <legend class="text-label mb-3 uppercase text-text-muted">BUDGET_BRACKET *</legend>
+          <legend class="text-label mb-3 uppercase text-text-muted"
+            >BUDGET_BRACKET *</legend
+          >
           {
             scopes.map((s) => (
               <label class="flex cursor-pointer items-center justify-between gap-4 border border-line bg-surface p-4 transition-colors duration-200 hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-surface-raised">
                 <span>
-                  <span class="block font-mono text-sm font-bold text-text">{s.key}</span>
-                  <span class="mt-0.5 block font-mono text-xs text-text-muted">{s.desc}</span>
+                  <span class="block font-mono text-sm font-bold text-text">
+                    {s.key}
+                  </span>
+                  <span class="mt-0.5 block font-mono text-xs text-text-muted">
+                    {s.desc}
+                  </span>
                 </span>
-                <input type="radio" name="scope" value={s.key} class="accent-[#9cdef2]" />
+                <input
+                  type="radio"
+                  name="scope"
+                  value={s.key}
+                  class="accent-[#9cdef2]"
+                />
               </label>
             ))
           }
         </fieldset>
         <fieldset>
-          <legend class="text-label mb-3 uppercase text-text-muted">TIMELINE_PROJECTION *</legend>
+          <legend class="text-label mb-3 uppercase text-text-muted"
+            >TIMELINE_PROJECTION *</legend
+          >
           <div class="grid gap-3 sm:grid-cols-3">
             {
               timelines.map((t) => (
                 <label class="flex cursor-pointer flex-col gap-1 border border-line bg-surface p-4 text-center transition-colors duration-200 hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-surface-raised">
-                  <input type="radio" name="timeline" value={t.key} class="sr-only" />
-                  <span class="font-mono text-sm font-bold text-text">{t.key}</span>
-                  <span class="font-mono text-xs text-text-muted">{t.desc}</span>
+                  <input
+                    type="radio"
+                    name="timeline"
+                    value={t.key}
+                    class="sr-only"
+                  />
+                  <span class="font-mono text-sm font-bold text-text">
+                    {t.key}
+                  </span>
+                  <span class="font-mono text-xs text-text-muted">
+                    {t.desc}
+                  </span>
                 </label>
               ))
             }
@@ -178,15 +272,22 @@ const steps = [
       <!-- STEP 4 -->
       <section data-step="4" class="flex flex-col gap-6">
         <div>
-          <h2 class="text-headline-lg text-text-bright" tabindex="-1" data-step-heading>
+          <h2
+            class="text-headline-lg text-text-bright"
+            tabindex="-1"
+            data-step-heading
+          >
             MISSION_BRIEF
           </h2>
           <p class="mt-2 font-mono text-sm text-text-muted">
-            Describe the build: core features, constraints, target users, launch window.
+            Describe the build: core features, constraints, target users, launch
+            window.
           </p>
         </div>
         <label class="flex flex-col gap-2">
-          <span class="text-label uppercase text-text-muted">VISION_DESCRIPTION *</span>
+          <span class="text-label uppercase text-text-muted"
+            >VISION_DESCRIPTION *</span
+          >
           <textarea
             name="brief"
             rows="7"
@@ -205,37 +306,66 @@ const steps = [
       <!-- STEP 5: summary (JS-only) -->
       <section data-step="5" hidden class="flex flex-col gap-6">
         <div>
-          <h2 class="text-headline-lg text-text-bright" tabindex="-1" data-step-heading>
+          <h2
+            class="text-headline-lg text-text-bright"
+            tabindex="-1"
+            data-step-heading
+          >
             TRANSMISSION_READY
           </h2>
           <p class="mt-2 font-mono text-sm text-text-muted">
-            Review the compiled brief — SEND opens your mail client with everything pre-filled.
+            Review the compiled brief — SEND opens your mail client with
+            everything pre-filled.
           </p>
         </div>
         <dl class="flex flex-col border border-line bg-surface">
-          <div class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4">
+          <div
+            class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4"
+          >
             <dt class="text-label uppercase text-text-muted">FROM</dt>
-            <dd class="break-words font-mono text-sm text-text" data-sum-from>—</dd>
+            <dd class="break-words font-mono text-sm text-text" data-sum-from>
+              —
+            </dd>
           </div>
-          <div class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4">
+          <div
+            class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4"
+          >
             <dt class="text-label uppercase text-text-muted">ORG</dt>
-            <dd class="break-words font-mono text-sm text-text" data-sum-org>—</dd>
+            <dd class="break-words font-mono text-sm text-text" data-sum-org>
+              —
+            </dd>
           </div>
-          <div class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4">
+          <div
+            class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4"
+          >
             <dt class="text-label uppercase text-text-muted">DOMAINS</dt>
-            <dd class="break-words font-mono text-sm text-text" data-sum-domains>—</dd>
+            <dd
+              class="break-words font-mono text-sm text-text"
+              data-sum-domains
+            >
+              —
+            </dd>
           </div>
-          <div class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4">
+          <div
+            class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4"
+          >
             <dt class="text-label uppercase text-text-muted">SCOPE</dt>
             <dd class="font-mono text-sm text-text" data-sum-scope>—</dd>
           </div>
-          <div class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4">
+          <div
+            class="grid grid-cols-[130px_1fr] gap-3 border-b border-line p-4"
+          >
             <dt class="text-label uppercase text-text-muted">TIMELINE</dt>
             <dd class="font-mono text-sm text-text" data-sum-timeline>—</dd>
           </div>
           <div class="grid grid-cols-[130px_1fr] gap-3 p-4">
             <dt class="text-label uppercase text-text-muted">BRIEF</dt>
-            <dd class="whitespace-pre-wrap break-words font-mono text-sm text-text" data-sum-brief>—</dd>
+            <dd
+              class="whitespace-pre-wrap break-words font-mono text-sm text-text"
+              data-sum-brief
+            >
+              —
+            </dd>
           </div>
         </dl>
         <div class="flex flex-wrap items-center gap-3">
@@ -264,8 +394,18 @@ const steps = [
       </section>
 
       <!-- Error + nav (JS-managed) -->
-      <p data-wizard-error hidden class="border border-danger px-4 py-3 font-mono text-sm text-danger" role="alert"></p>
-      <div data-wizard-nav hidden class="flex items-center justify-between gap-4 border-t border-line pt-6">
+      <p
+        data-wizard-error
+        hidden
+        class="border border-danger px-4 py-3 font-mono text-sm text-danger"
+        role="alert"
+      >
+      </p>
+      <div
+        data-wizard-nav
+        hidden
+        class="flex items-center justify-between gap-4 border-t border-line pt-6"
+      >
         <button
           type="button"
           data-back

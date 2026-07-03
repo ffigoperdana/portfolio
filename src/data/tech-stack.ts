@@ -10,12 +10,26 @@ export const techStack: TechGroup[] = [
   {
     label: 'Infrastructure & Systems',
     icon: 'server',
-    items: ['Linux', 'Windows Server', 'Proxmox', 'VMware ESXi', 'Active Directory', 'DNS'],
+    items: [
+      'Linux',
+      'Windows Server',
+      'Proxmox',
+      'VMware ESXi',
+      'Active Directory',
+      'DNS',
+    ],
   },
   {
     label: 'DevOps & Automation',
     icon: 'container',
-    items: ['Docker', 'Kubernetes', 'Terraform', 'Ansible', 'GitLab CI/CD', 'Jenkins'],
+    items: [
+      'Docker',
+      'Kubernetes',
+      'Terraform',
+      'Ansible',
+      'GitLab CI/CD',
+      'Jenkins',
+    ],
   },
   {
     label: 'Cloud Platforms',
@@ -40,7 +54,16 @@ export const techStack: TechGroup[] = [
   {
     label: 'Programming & Frameworks',
     icon: 'code',
-    items: ['Go', 'Python', 'TypeScript', 'PHP', 'SQL', 'Bash', 'Laravel', 'React'],
+    items: [
+      'Go',
+      'Python',
+      'TypeScript',
+      'PHP',
+      'SQL',
+      'Bash',
+      'Laravel',
+      'React',
+    ],
   },
   {
     label: 'Tools & Platforms',

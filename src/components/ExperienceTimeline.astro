@@ -21,14 +21,18 @@ import { experience } from '../data/experience';
           />
           <div class="group grid gap-4 border border-line bg-surface p-5 transition-colors duration-200 hover:border-accent sm:p-6 md:grid-cols-[240px_1fr] md:gap-8">
             <div>
-              <p class="text-label mb-2 uppercase text-accent">{job.displayDate}</p>
+              <p class="text-label mb-2 uppercase text-accent">
+                {job.displayDate}
+              </p>
               <p class="font-heading text-xl font-semibold text-text transition-colors duration-200 group-hover:text-text-bright">
                 {job.company}
               </p>
             </div>
             <div class="flex flex-col gap-3 md:border-l md:border-line md:pl-8">
               <h3 class="text-headline-md text-text-bright">{job.role}</h3>
-              <p class="font-mono text-sm leading-relaxed text-text-muted">{job.summary}</p>
+              <p class="font-mono text-sm leading-relaxed text-text-muted">
+                {job.summary}
+              </p>
               <ul class="mt-1 flex flex-wrap gap-2">
                 {job.skills.map((skill) => (
                   <li class="text-label whitespace-nowrap border border-line bg-surface-raised px-2 py-1.5 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent">

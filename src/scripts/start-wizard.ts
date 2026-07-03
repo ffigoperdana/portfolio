@@ -16,10 +16,14 @@ function initWizard(): void {
   const backBtn = form.querySelector<HTMLButtonElement>('[data-back]');
   const nextBtn = form.querySelector<HTMLButtonElement>('[data-proceed]');
   const errorEl = form.querySelector<HTMLElement>('[data-wizard-error]');
-  const dots = [...document.querySelectorAll<HTMLElement>('[data-step-dots] > span')];
+  const dots = [
+    ...document.querySelectorAll<HTMLElement>('[data-step-dots] > span'),
+  ];
   const stepLabel = document.querySelector<HTMLElement>('[data-step-label]');
   const stepName = document.querySelector<HTMLElement>('[data-step-name]');
-  const briefArea = form.querySelector<HTMLTextAreaElement>('textarea[name="brief"]');
+  const briefArea = form.querySelector<HTMLTextAreaElement>(
+    'textarea[name="brief"]',
+  );
   const briefCount = form.querySelector<HTMLElement>('[data-brief-count]');
   if (!nav || !backBtn || !nextBtn || !errorEl) return;
 
@@ -39,22 +43,30 @@ function initWizard(): void {
   };
 
   const value = (name: string): string =>
-    form.querySelector<HTMLInputElement>(`[name="${name}"]`)?.value.trim() ?? '';
+    form.querySelector<HTMLInputElement>(`[name="${name}"]`)?.value.trim() ??
+    '';
   const checked = (name: string): string[] =>
-    [...form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)].map((i) => i.value);
+    [
+      ...form.querySelectorAll<HTMLInputElement>(
+        `input[name="${name}"]:checked`,
+      ),
+    ].map((i) => i.value);
 
   const validate = (idx: number): string | null => {
     switch (idx) {
       case 0:
         if (!value('name')) return 'ERR: NAME is required.';
-        if (!EMAIL_RE.test(value('email'))) return 'ERR: a valid EMAIL is required.';
+        if (!EMAIL_RE.test(value('email')))
+          return 'ERR: a valid EMAIL is required.';
         return null;
       case 1:
-        if (checked('domain').length === 0) return 'ERR: select at least one target system.';
+        if (checked('domain').length === 0)
+          return 'ERR: select at least one target system.';
         return null;
       case 2:
         if (checked('scope').length === 0) return 'ERR: pick a BUDGET_BRACKET.';
-        if (checked('timeline').length === 0) return 'ERR: pick a TIMELINE_PROJECTION.';
+        if (checked('timeline').length === 0)
+          return 'ERR: pick a TIMELINE_PROJECTION.';
         return null;
       case 3:
         if ((briefArea?.value.trim().length ?? 0) < 10)
@@ -109,10 +121,14 @@ function initWizard(): void {
     current = idx;
     steps.forEach((s, i) => (s.hidden = i !== idx));
     dots.forEach((d, i) => {
-      d.style.backgroundColor = i <= Math.min(idx, DATA_STEPS - 1) ? 'var(--color-accent)' : 'var(--color-line)';
+      d.style.backgroundColor =
+        i <= Math.min(idx, DATA_STEPS - 1)
+          ? 'var(--color-accent)'
+          : 'var(--color-line)';
     });
     if (stepLabel)
-      stepLabel.textContent = idx < DATA_STEPS ? `STEP ${idx + 1} OF ${DATA_STEPS}` : 'COMPILED';
+      stepLabel.textContent =
+        idx < DATA_STEPS ? `STEP ${idx + 1} OF ${DATA_STEPS}` : 'COMPILED';
     if (stepName) stepName.textContent = NAMES[idx] ?? '';
     backBtn.disabled = idx === 0;
     nextBtn.hidden = idx === steps.length - 1;
@@ -137,7 +153,8 @@ function initWizard(): void {
   // Clipboard fallback for the compiled message.
   const copyBtn = form.querySelector<HTMLButtonElement>('[data-copy-brief]');
   const copyLabel = form.querySelector<HTMLElement>('[data-copy-brief-label]');
-  const copyStatus = copyBtn?.parentElement?.querySelector<HTMLElement>('[role="status"]');
+  const copyStatus =
+    copyBtn?.parentElement?.querySelector<HTMLElement>('[role="status"]');
   copyBtn?.addEventListener('click', async () => {
     const { subject, body } = buildMessage();
     const text = `Subject: ${subject}\r\n\r\n${body}`;
@@ -159,7 +176,10 @@ function initWizard(): void {
       ta.remove();
     }
     if (copyLabel) copyLabel.textContent = ok ? 'COPIED' : 'COPY_MESSAGE';
-    if (copyStatus) copyStatus.textContent = ok ? 'Message copied' : 'Copy failed — select manually';
+    if (copyStatus)
+      copyStatus.textContent = ok
+        ? 'Message copied'
+        : 'Copy failed — select manually';
     window.setTimeout(() => {
       if (copyLabel) copyLabel.textContent = 'COPY_MESSAGE';
       if (copyStatus) copyStatus.textContent = '';

@@ -147,3 +147,6 @@ vite.config.ts.timestamp-*
 
 # Design inputs (not product source)
 references/
+
+# Local tooling
+.claude/

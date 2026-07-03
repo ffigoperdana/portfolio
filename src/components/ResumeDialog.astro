@@ -10,7 +10,9 @@ import Icon from './Icon.astro';
   data-resume-dialog
   class="m-auto w-[min(92vw,820px)] border border-line bg-bg p-0 text-text backdrop:bg-bg/80"
 >
-  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line p-3 pl-4">
+  <div
+    class="flex flex-wrap items-center justify-between gap-3 border-b border-line p-3 pl-4"
+  >
     <p class="text-label uppercase text-text-muted" data-resume-title>RESUME</p>
     <div class="flex items-center gap-2">
       <a
@@ -40,7 +42,10 @@ import Icon from './Icon.astro';
       </button>
     </div>
   </div>
-  <iframe data-resume-frame title="Resume PDF preview" class="block h-[75vh] w-full bg-surface"></iframe>
+  <iframe
+    data-resume-frame
+    title="Resume PDF preview"
+    class="block h-[75vh] w-full bg-surface"></iframe>
 </dialog>
 
 <script>

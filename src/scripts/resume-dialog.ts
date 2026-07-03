@@ -4,13 +4,19 @@
  * scrollable PDF preview and a real download button.
  */
 function initResumeDialog(): void {
-  const dialog = document.querySelector<HTMLDialogElement>('dialog[data-resume-dialog]');
+  const dialog = document.querySelector<HTMLDialogElement>(
+    'dialog[data-resume-dialog]',
+  );
   if (!dialog || typeof dialog.showModal !== 'function') return;
 
   const frame = dialog.querySelector<HTMLIFrameElement>('[data-resume-frame]');
   const title = dialog.querySelector<HTMLElement>('[data-resume-title]');
-  const download = dialog.querySelector<HTMLAnchorElement>('[data-resume-download]');
-  const permalink = dialog.querySelector<HTMLAnchorElement>('[data-resume-permalink]');
+  const download = dialog.querySelector<HTMLAnchorElement>(
+    '[data-resume-download]',
+  );
+  const permalink = dialog.querySelector<HTMLAnchorElement>(
+    '[data-resume-permalink]',
+  );
   if (!frame || !title || !download) return;
 
   const close = (): void => dialog.close();
@@ -24,7 +30,9 @@ function initResumeDialog(): void {
     frame.src = '';
   });
 
-  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-resume-trigger]')) {
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    'a[data-resume-trigger]',
+  )) {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const href = link.getAttribute('href') ?? '';

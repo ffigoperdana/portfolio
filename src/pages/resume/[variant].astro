@@ -34,7 +34,9 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
 
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p class="font-mono text-sm text-accent">cat ~/documents/{resume.slug}.pdf</p>
+        <p class="font-mono text-sm text-accent">
+          cat ~/documents/{resume.slug}.pdf
+        </p>
         <h1 class="text-headline-lg mt-2 text-text-bright">{resume.label}</h1>
       </div>
       <a
@@ -74,7 +76,9 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
 
     <p class="font-mono text-xs text-text-muted">
       Preview not rendering (some mobile browsers)? Use DOWNLOAD_PDF above, or
-      <a href={resume.path} class="text-accent underline underline-offset-2">open the raw file</a>.
+      <a href={resume.path} class="text-accent underline underline-offset-2"
+        >open the raw file</a
+      >.
     </p>
   </div>
 </BaseLayout>

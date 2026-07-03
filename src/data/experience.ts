@@ -20,7 +20,13 @@ export const experience: ExperienceEntry[] = [
     dateEnd: null,
     summary:
       'Managing on-prem infrastructure and platform operations for 10+ business-critical applications: Proxmox virtualization, GitLab CI/CD administration, service availability and incident response.',
-    skills: ['Proxmox', 'GitLab CI/CD', 'Linux', 'Incident Response', 'On-Prem Infrastructure'],
+    skills: [
+      'Proxmox',
+      'GitLab CI/CD',
+      'Linux',
+      'Incident Response',
+      'On-Prem Infrastructure',
+    ],
   },
   {
     company: 'PT. Mastersystem Infotama Tbk',
@@ -30,7 +36,14 @@ export const experience: ExperienceEntry[] = [
     dateEnd: '2026-01-01',
     summary:
       'Supported nationwide branch operations (1000+ sites) for PT. Bank Central Asia Tbk — SD-WAN/I-WAN troubleshooting, Cisco ACI fabrics (APIC, Nexus), UCS/VMware ESXi clusters under change control.',
-    skills: ['Cisco ACI', 'SD-WAN', 'Nexus', 'VMware ESXi', 'Cisco UCS', 'Network Design'],
+    skills: [
+      'Cisco ACI',
+      'SD-WAN',
+      'Nexus',
+      'VMware ESXi',
+      'Cisco UCS',
+      'Network Design',
+    ],
   },
   {
     company: 'PT. Presentologics (Dicoding)',
@@ -40,7 +53,13 @@ export const experience: ExperienceEntry[] = [
     dateEnd: '2024-06-01',
     summary:
       'Guided 30 students through fullstack web development and DevOps (Docker, Kubernetes) tracks, reaching an 85% batch completion rate.',
-    skills: ['Mentoring', 'Docker', 'Kubernetes', 'React', 'Fullstack Development'],
+    skills: [
+      'Mentoring',
+      'Docker',
+      'Kubernetes',
+      'React',
+      'Fullstack Development',
+    ],
   },
   {
     company: 'PT. Nusabot Inovasi Teknologi',

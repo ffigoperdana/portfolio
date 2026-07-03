@@ -47,7 +47,11 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     for (const el of document.querySelectorAll<HTMLElement>(
       '[data-reveal-fade]',
     )) {
-      animate(el, { opacity: 1 }, { duration: 0.5, delay: 0.12, ease: 'easeOut' });
+      animate(
+        el,
+        { opacity: 1 },
+        { duration: 0.5, delay: 0.12, ease: 'easeOut' },
+      );
     }
   };
 
@@ -60,7 +64,9 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       (child as HTMLElement).style.transform = FROM.y;
     }
   }
-  for (const el of document.querySelectorAll<HTMLElement>('[data-reveal-fade]')) {
+  for (const el of document.querySelectorAll<HTMLElement>(
+    '[data-reveal-fade]',
+  )) {
     el.style.opacity = '0';
   }
 
