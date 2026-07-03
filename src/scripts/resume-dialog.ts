@@ -48,3 +48,7 @@ function initResumeDialog(): void {
 }
 
 initResumeDialog();
+
+// Module marker: keeps this file in module scope (own const scope,
+// enables global augmentation elsewhere).
+export {};

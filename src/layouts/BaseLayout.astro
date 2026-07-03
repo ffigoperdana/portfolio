@@ -11,9 +11,10 @@ interface Props {
    *  Omit on the home page for "{site.name} — {site.metaRole}". */
   title?: string;
   description?: string;
-  /** Absolute or root-relative OG image; og:image tags are omitted
-   *  until a default social-preview exists (Phase 11). */
-  ogImage?: string;
+  /** Absolute or root-relative OG image (defaults to the social preview).
+   *  `| undefined` keeps exactOptionalPropertyTypes happy for callers that
+   *  pass a conditional value. */
+  ogImage?: string | undefined;
   /** JSON-LD structured data object(s), rendered verbatim. */
   jsonLd?: object;
 }
@@ -60,7 +61,11 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site) : undefined;
 
     {
       jsonLd && (
-        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+        />
       )
     }
   </head>
