@@ -1,0 +1,96 @@
+---
+// Home page — all sections live.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import TechStackGrid from '../components/TechStackGrid.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import Web3Hub from '../components/Web3Hub.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { site } from '../data/site';
+import { socialLinks } from '../data/social';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${Astro.site}#person`,
+      name: site.name,
+      url: `${Astro.site}`,
+      jobTitle: site.metaRole,
+      email: `mailto:${site.email}`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Jakarta',
+        addressCountry: 'ID',
+      },
+      sameAs: socialLinks.map((s) => s.url),
+    },
+    {
+      '@type': 'WebSite',
+      name: `${site.name} — Portfolio`,
+      url: `${Astro.site}`,
+      author: { '@id': `${Astro.site}#person` },
+    },
+  ],
+};
+---
+
+<BaseLayout jsonLd={jsonLd}>
+  <Hero />
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-8">
+    <section
+      id="experience"
+      aria-labelledby="experience-h"
+      class="border-t border-line py-16 lg:py-24"
+    >
+      <SectionHeading id="experience" title="EXP_LOG" cursor />
+      <ExperienceTimeline />
+    </section>
+
+    <section
+      id="stack"
+      aria-labelledby="stack-h"
+      class="border-t border-line py-16 lg:py-24"
+    >
+      <SectionHeading
+        id="stack"
+        title="TECH_STACK"
+        meta="Battle-tested tools for scalable infrastructure and digital craft."
+      />
+      <TechStackGrid />
+    </section>
+
+    <section
+      id="projects"
+      aria-labelledby="projects-h"
+      class="border-t border-line py-16 lg:py-24"
+    >
+      <SectionHeading
+        id="projects"
+        title="PROJECTS"
+        meta="Each project is a product of curiosity and craft."
+      />
+      <ProjectsSection />
+    </section>
+
+    <section
+      id="contact"
+      aria-labelledby="contact-h"
+      class="border-t border-line py-16 lg:py-24"
+    >
+      <SectionHeading
+        id="contact"
+        title="IO_CONTACT"
+        meta="Signals answered — including the cloaked on-chain kind."
+      />
+      <div class="grid grid-cols-1 gap-10 xl:grid-cols-2 xl:gap-12">
+        <Web3Hub />
+        <ContactSection />
+      </div>
+    </section>
+  </div>
+</BaseLayout>

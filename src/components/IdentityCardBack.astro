@@ -1,0 +1,196 @@
+---
+// Back face of the hanging ID card, recreated from references/KartuBelakang.png.
+// Entirely decorative (the Hero wrapper sets aria-hidden): FG mark, node/clearance
+// panel, a real QR to fgdev.tech, signature, fingerprint, access-hash barcode.
+import Icon from './Icon.astro';
+---
+
+<div
+  class="relative flex h-full w-full flex-col border border-line bg-surface p-5"
+>
+  <!-- Corner brackets + side ticks (mirrored vs front) -->
+  <div
+    class="pointer-events-none absolute left-2 top-2 h-12 w-12 border-l-2 border-t-2 border-accent opacity-50"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-2 right-2 h-12 w-12 border-b-2 border-r-2 border-accent opacity-50"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute right-0 top-1/4 h-8 w-1 bg-accent opacity-80"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-1/4 left-0 h-8 w-1 bg-accent opacity-80"
+  >
+  </div>
+
+  <div class="mb-2 flex items-center justify-between border-b border-line pb-2">
+    <span
+      class="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-text-muted"
+    >
+      ID_CARD // BACKSIDE
+    </span>
+    <span
+      class="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-accent"
+    >
+      FGDEV.TECH
+      <Icon name="globe" size={12} />
+    </span>
+  </div>
+
+  <div
+    class="mb-1 flex items-center justify-between font-mono text-[11px] font-bold uppercase tracking-[0.15em]"
+  >
+    <span class="text-text-muted">[FGDEV]</span>
+    <span class="border-b-2 border-accent pb-0.5 text-text">EGO</span>
+  </div>
+
+  <!-- FG mark in a viewfinder frame -->
+  <div
+    class="relative mx-auto my-2 flex h-[104px] w-[168px] items-center justify-center"
+  >
+    <div
+      class="absolute left-0 top-0 h-4 w-4 border-l border-t border-text-muted"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-4 w-4 border-r border-t border-text-muted"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 left-0 h-4 w-4 border-b border-l border-text-muted"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 right-0 h-4 w-4 border-b border-r border-text-muted"
+    >
+    </div>
+    <span
+      class="absolute -left-5 top-1/2 -translate-y-1/2 font-mono text-[11px] text-text-muted"
+      >+</span
+    >
+    <span
+      class="absolute -right-5 top-1/2 -translate-y-1/2 font-mono text-[11px] text-text-muted"
+      >+</span
+    >
+    <img
+      src="/icon-512.png"
+      alt=""
+      width="96"
+      height="96"
+      class="fg-mark h-24 w-24 object-contain"
+      loading="lazy"
+      draggable="false"
+    />
+  </div>
+
+  <p
+    class="mb-2 text-center font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-accent"
+  >
+    DEVOPS // NETWORK // INFRA
+  </p>
+
+  <!-- Credential panel -->
+  <div class="grid grid-cols-[1fr_auto_1fr] border border-line">
+    <div class="flex flex-col justify-between gap-1 p-2">
+      <div>
+        <p class="font-mono text-[11px] uppercase text-text-muted">NODE_ID</p>
+        <p class="font-mono text-xs font-bold text-text">FG-2609-ITINFRA</p>
+      </div>
+      <div class="border-t border-dashed border-line pt-1">
+        <p class="font-mono text-[11px] uppercase text-text-muted">CLEARANCE</p>
+        <p class="font-mono text-xs font-bold text-text">LEVEL 3</p>
+      </div>
+    </div>
+    <div
+      class="flex flex-col items-center justify-center border-x border-dashed border-line p-2"
+    >
+      <img
+        src="/qr-fgdev.svg"
+        alt=""
+        width="64"
+        height="64"
+        class="h-16 w-16"
+        loading="lazy"
+        draggable="false"
+      />
+      <p class="mt-1 font-mono text-[11px] uppercase text-accent">
+        SCAN TO VERIFY
+      </p>
+    </div>
+    <div class="flex flex-col justify-between gap-1 p-2 text-right">
+      <div>
+        <p class="font-mono text-[11px] uppercase text-text-muted">ISSUED</p>
+        <p class="font-mono text-xs font-bold text-text">26.09.2024</p>
+      </div>
+      <div class="border-t border-dashed border-line pt-1">
+        <p class="font-mono text-[11px] uppercase text-text-muted">
+          VALID_UNTIL
+        </p>
+        <p class="font-mono text-xs font-bold text-text">26.09.2026</p>
+      </div>
+    </div>
+    <div
+      class="col-span-3 flex items-center justify-between gap-2 border-t border-line p-2"
+    >
+      <div class="min-w-0">
+        <p class="font-mono text-[11px] uppercase text-text-muted">
+          AUTHORIZED BY
+        </p>
+        <p class="truncate font-mono text-xs font-bold text-text">
+          FGDEV.SYSTEM
+        </p>
+      </div>
+      <svg
+        viewBox="0 0 120 24"
+        class="h-5 w-20 shrink-0 text-accent"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linecap="round"
+      >
+        <path
+          d="M4 16c8-10 12 4 18-6s8 8 14 2 10-10 14 0 8 6 14 0 10-8 14-2 12 8 18 2"
+        ></path>
+      </svg>
+      <span class="relative shrink-0 border border-line p-0.5">
+        <Icon name="fingerprint" size={22} class="text-accent" />
+      </span>
+    </div>
+  </div>
+
+  <!-- Access hash -->
+  <div class="mt-2 border border-line bg-surface-raised p-2">
+    <div
+      class="mb-1 flex items-center justify-between font-mono text-[11px] uppercase"
+    >
+      <span class="text-text-muted">ACCESS HASH</span>
+      <span class="font-bold text-text">FGDEV.2609.7A3C</span>
+    </div>
+    <div
+      class="h-5 opacity-70"
+      style="background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, #9cdef2 2px, #9cdef2 4px);"
+    >
+    </div>
+  </div>
+
+  <div
+    class="mt-auto flex items-start gap-2 border-t border-dashed border-line pt-2"
+  >
+    <Icon name="warning" size={14} class="mt-0.5 shrink-0 text-danger" />
+    <p class="font-mono text-[11px] leading-tight text-text-muted">
+      AUTHORIZED PERSONNEL ONLY. SYSTEM ACCESS LOGGED AND MONITORED.
+    </p>
+  </div>
+</div>
+
+<style>
+  /* Tint the white FG mark toward the accent cyan; screen-blend drops its
+     black background against the card surface. */
+  .fg-mark {
+    mix-blend-mode: screen;
+    filter: sepia(1) saturate(2.6) hue-rotate(155deg) brightness(1.08);
+  }
+</style>

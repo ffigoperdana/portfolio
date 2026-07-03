@@ -1,0 +1,156 @@
+---
+// Hero: text block + hanging identity card. Mobile order = card first
+// (strap connects to the header directly above), text below; from lg: the
+// text sits left (7 cols) and the two-faced card hangs beside it, slowly
+// spinning on its lanyard until grabbed (physics in scripts/lanyard.ts).
+import IdentityCard from './IdentityCard.astro';
+import IdentityCardBack from './IdentityCardBack.astro';
+import { site } from '../data/site';
+import portrait from '../assets/portrait.jpg';
+
+const roles = site.roles.map((r) => r.toUpperCase());
+const longestRole = roles.reduce((a, b) => (b.length > a.length ? b : a));
+---
+
+<section aria-label="Introduction" class="mx-auto max-w-7xl px-4 sm:px-8">
+  <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-center lg:gap-6">
+    <div
+      class="order-2 flex flex-col items-start gap-6 py-12 lg:order-none lg:col-span-7 lg:border-l lg:border-line lg:py-24 lg:pl-8"
+      data-reveal-load
+    >
+      <p class="font-mono text-sm text-accent">
+        INITIATING BOOT SEQUENCE... OK.
+      </p>
+      <h1 class="text-headline-xl text-text">
+        FIGO PERDANA:<br />
+        <span class="inline-grid whitespace-nowrap text-text-bright">
+          <span class="invisible col-start-1 row-start-1" aria-hidden="true"
+            >[{longestRole}]</span
+          >
+          <span
+            class="col-start-1 row-start-1"
+            data-role-rotator
+            data-roles={JSON.stringify(roles)}
+            aria-hidden="true">[{roles[0]}]</span
+          >
+          <span class="sr-only">{site.roles.join(' · ')}</span>
+        </span>
+      </h1>
+      <p class="max-w-[65ch] font-mono text-text-muted">{site.description}</p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="#experience"
+          class="text-label flex min-h-11 items-center border border-accent bg-accent px-6 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+        >
+          EXECUTE_LOG
+        </a>
+        <a
+          href="#contact"
+          class="text-label flex min-h-11 items-center border border-accent px-6 uppercase text-accent transition-shadow duration-200 hover:crt-glow"
+        >
+          PING_ME
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="order-1 flex justify-center lg:order-none lg:col-span-5 lg:col-start-8 lg:justify-center lg:pb-12"
+    >
+      <div class="lanyard-scene w-full max-w-[320px]" data-reveal-fade>
+        <div class="lanyard-rig" data-lanyard>
+          <div class="strap flex flex-col items-center" aria-hidden="true">
+            <div class="strap-line"></div>
+            <div class="clasp border border-line bg-surface-raised"></div>
+          </div>
+          <div class="card-swing" data-lanyard-card>
+            <div
+              class="card-3d relative w-full cursor-grab touch-pan-y select-none active:cursor-grabbing"
+              data-lanyard-grab
+            >
+              <div class="card-face">
+                <IdentityCard
+                  name="FIGO PERDANA"
+                  roleLine="DEVOPS // NETWORK // INFRA"
+                  photo={portrait}
+                />
+              </div>
+              <div class="card-face card-back" aria-hidden="true">
+                <IdentityCardBack />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lanyard-scene {
+    perspective: 1200px;
+    /* ================================================================
+       ATUR POSISI KARTU DI SINI (desktop >=1280px saja):
+       nilai POSITIF = geser ke KANAN, NEGATIF = ke KIRI.
+       Contoh: 0px = center kolom, 60px = lebih ke kanan, -40px = kiri.
+       ================================================================ */
+    --card-nudge-x: 0px;
+  }
+  @media (min-width: 1280px) {
+    .lanyard-scene {
+      transform: translateX(var(--card-nudge-x));
+    }
+  }
+  .lanyard-rig {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: 50% 0;
+    transform: rotateZ(var(--swing, 0deg));
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .strap-line {
+    width: 8px;
+    height: 4.5rem;
+    background: repeating-linear-gradient(
+      0deg,
+      var(--color-line) 0 6px,
+      color-mix(in srgb, var(--color-line) 55%, var(--color-bg)) 6px 12px
+    );
+  }
+  @media (min-width: 1024px) {
+    .strap-line {
+      height: 3.5rem;
+    }
+  }
+  .clasp {
+    width: 22px;
+    height: 12px;
+    margin-bottom: -2px;
+  }
+  .card-swing {
+    width: 100%;
+    transform-origin: 50% -1rem;
+    transform: rotateX(var(--wobx, 0deg)) rotateZ(var(--lag, 0deg));
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .card-3d {
+    transform: rotateY(var(--spin, 0deg));
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .card-face {
+    backface-visibility: hidden;
+  }
+  .card-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+  }
+</style>
+
+<script>
+  import '../scripts/lanyard';
+  import '../scripts/role-rotator';
+</script>

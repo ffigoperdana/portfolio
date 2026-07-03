@@ -1,0 +1,40 @@
+---
+// Resume preview modal: native <dialog> (focus trap, Escape, backdrop free)
+// with a scrollable PDF iframe + DOWNLOAD button. Triggers are the ordinary
+// resume <a data-resume-trigger> links — without JS they keep opening the
+// PDF directly. One instance lives in BaseLayout.
+import Icon from './Icon.astro';
+---
+
+<dialog
+  data-resume-dialog
+  class="m-auto w-[min(92vw,820px)] border border-line bg-bg p-0 text-text backdrop:bg-bg/80"
+>
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line p-3 pl-4">
+    <p class="text-label uppercase text-text-muted" data-resume-title>RESUME</p>
+    <div class="flex items-center gap-2">
+      <a
+        href="#"
+        download
+        data-resume-download
+        class="text-label flex min-h-10 items-center gap-2 border border-accent bg-accent px-4 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+      >
+        <Icon name="download" size={14} />
+        DOWNLOAD
+      </a>
+      <button
+        type="button"
+        data-resume-close
+        aria-label="Close resume preview"
+        class="flex h-10 w-10 items-center justify-center border border-line text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+      >
+        <Icon name="close" size={16} />
+      </button>
+    </div>
+  </div>
+  <iframe data-resume-frame title="Resume PDF preview" class="block h-[75vh] w-full bg-surface"></iframe>
+</dialog>
+
+<script>
+  import '../scripts/resume-dialog';
+</script>

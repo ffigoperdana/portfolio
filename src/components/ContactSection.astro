@@ -1,0 +1,93 @@
+---
+// Contact: availability / location / email cards + socials + resume files.
+// Every value comes from src/data/site.ts. The email is always visible,
+// selectable text (CopyButton is a JS enhancement on top).
+import { site } from '../data/site';
+import CopyButton from './CopyButton.astro';
+import Icon from './Icon.astro';
+import SocialLinks from './SocialLinks.astro';
+
+const available = site.resumes.filter((r) => r.available);
+const pending = site.resumes.filter((r) => !r.available);
+---
+
+<div class="flex flex-col gap-4">
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="flex items-start gap-4 border border-line bg-surface p-5">
+      <span class="status-dot mt-1.5 shrink-0" aria-hidden="true"></span>
+      <div>
+        <p class="text-label mb-1 uppercase text-text-muted">AVAILABILITY</p>
+        <p class="font-mono text-sm text-text">{site.availability}</p>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 border border-line bg-surface p-5">
+      <Icon name="pin" size={18} class="mt-1 shrink-0 text-accent" />
+      <div>
+        <p class="text-label mb-1 uppercase text-text-muted">LOCATION</p>
+        <p class="font-mono text-sm text-text">{site.location}</p>
+        <p class="mt-1 font-mono text-xs text-text-muted">
+          {site.timezone} — open to remote & hybrid.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="flex flex-wrap items-center justify-between gap-4 border border-line bg-surface p-5"
+  >
+    <div class="flex min-w-0 items-start gap-4">
+      <Icon name="mail" size={18} class="mt-1 shrink-0 text-accent" />
+      <div class="min-w-0">
+        <p class="text-label mb-1 uppercase text-text-muted">EMAIL</p>
+        <p class="break-all font-mono text-sm text-text">{site.email}</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <CopyButton value={site.email} label="Copy email address" />
+      <a
+        href={`mailto:${site.email}`}
+        class="text-label flex min-h-11 items-center border border-accent bg-accent px-4 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+      >
+        SEND_PING
+      </a>
+    </div>
+  </div>
+
+  <div class="border border-line bg-surface p-5">
+    <p class="text-label mb-4 uppercase text-text-muted">FIND_ME_ON</p>
+    <SocialLinks variant="card" />
+  </div>
+
+  <div class="border border-line bg-surface p-5">
+    <p class="text-label mb-4 uppercase text-text-muted">RESUME_FILES</p>
+    <ul class="flex flex-col gap-2">
+      {
+        available.map((r) => (
+          <li>
+            <a
+              href={r.path}
+              data-resume-trigger
+              data-resume-label={r.label}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-label flex min-h-11 items-center justify-between gap-3 border border-line px-3 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+            >
+              {r.label}
+              <Icon name="arrow-out" size={14} />
+              <span class="sr-only">(PDF, opens in new tab)</span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        pending.map((r) => (
+          <li class="text-label flex min-h-11 items-center justify-between gap-3 border border-dashed border-line px-3 uppercase text-text-muted opacity-60">
+            {r.label}
+            <span class="font-mono">COMPILING&hellip;</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

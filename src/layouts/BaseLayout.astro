@@ -1,0 +1,84 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import { site } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ResumeDialog from '../components/ResumeDialog.astro';
+
+interface Props {
+  /** Page-specific title; rendered as "{title} — {site.name}".
+   *  Omit on the home page for "{site.name} — {site.metaRole}". */
+  title?: string;
+  description?: string;
+  /** Absolute or root-relative OG image; og:image tags are omitted
+   *  until a default social-preview exists (Phase 11). */
+  ogImage?: string;
+  /** JSON-LD structured data object(s), rendered verbatim. */
+  jsonLd?: object;
+}
+
+const {
+  title,
+  description = site.description,
+  ogImage = '/social-preview.png',
+  jsonLd,
+} = Astro.props;
+const fullTitle = title
+  ? `${title} — ${site.name}`
+  : `${site.name} — ${site.metaRole}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#111111" />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta
+      name="twitter:card"
+      content={ogImageUrl ? 'summary_large_image' : 'summary'}
+    />
+
+    <Font cssVariable="--font-space-grotesk" preload />
+    <Font cssVariable="--font-jetbrains-mono" preload />
+
+    {
+      jsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:px-6 focus:py-3 focus:font-mono focus:text-sm focus:font-bold focus:text-on-accent"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" tabindex="-1" class="w-full flex-grow">
+      <slot />
+    </main>
+    <Footer />
+    <ResumeDialog />
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

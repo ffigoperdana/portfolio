@@ -1,0 +1,63 @@
+---
+// Projects listing: non-draft entries, newest-first by dateStart. Filter
+// pills (All + the categories that actually exist) toggle the full-width
+// rows. The pill bar ships [hidden] and is revealed by scripts/projects-
+// filter.ts — without JS every project is simply visible.
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.dateStart.valueOf() - a.data.dateStart.valueOf()
+);
+
+const order = ['professional', 'freelance', 'personal'];
+const categories = [...new Set(projects.map((p) => p.data.category))].sort(
+  (a, b) => order.indexOf(a) - order.indexOf(b)
+);
+---
+
+<div
+  hidden
+  data-project-filters
+  role="group"
+  aria-label="Filter projects by type"
+  class="mb-8 flex flex-wrap gap-2"
+>
+  <button
+    type="button"
+    data-filter="all"
+    aria-pressed="true"
+    class="project-filter-btn text-label min-h-11 border border-line px-4 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+  >
+    ALL
+  </button>
+  {
+    categories.map((cat) => (
+      <button
+        type="button"
+        data-filter={cat}
+        aria-pressed="false"
+        class="project-filter-btn text-label min-h-11 border border-line px-4 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+      >
+        {cat}
+      </button>
+    ))
+  }
+  <span role="status" class="sr-only" data-project-status></span>
+</div>
+
+<div class="grid grid-cols-1 gap-6" data-reveal-group="y" data-reveal-stagger="0.09">
+  {projects.map((project) => <ProjectCard project={project} />)}
+</div>
+
+<style>
+  .project-filter-btn[aria-pressed='true'] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+</style>
+
+<script>
+  import '../scripts/projects-filter';
+</script>

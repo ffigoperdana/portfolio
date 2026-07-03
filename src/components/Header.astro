@@ -1,0 +1,116 @@
+---
+import { navigation } from '../data/navigation';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+
+const resumes = site.resumes.filter((r) => r.available);
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-line bg-bg">
+  <nav aria-label="Primary" class="mx-auto max-w-7xl px-4 sm:px-8">
+    <div class="flex h-16 items-center justify-between gap-4 lg:h-20">
+      <a
+        href="/"
+        aria-label={`${site.name} — home`}
+        class="font-heading text-xl font-bold tracking-tighter text-text-bright lg:text-2xl"
+      >
+        {site.handle}
+      </a>
+
+      <div class="hidden items-center gap-6 md:flex">
+        {
+          navigation.map((item) => (
+            <a
+              href={item.href}
+              class="text-label py-3 uppercase text-text-muted transition-colors duration-200 hover:text-accent hover:underline hover:decoration-accent hover:underline-offset-8"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Resume disclosure (2 variants now, 3rd appears when published) -->
+        <div class="relative">
+          <button
+            type="button"
+            data-disclosure
+            aria-expanded="false"
+            aria-controls="resume-menu"
+            class="text-label flex min-h-11 items-center gap-2 border border-accent bg-accent px-3 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow sm:px-4"
+          >
+            RESUME.BAT
+          </button>
+          <div
+            id="resume-menu"
+            hidden
+            class="absolute right-0 top-full z-50 mt-2 flex w-64 flex-col border border-line bg-bg"
+          >
+            {
+              resumes.map((r) => (
+                <a
+                  href={r.path}
+                  data-resume-trigger
+                  data-resume-label={r.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-label flex min-h-12 items-center justify-between gap-3 border-b border-line px-4 uppercase text-text-muted transition-colors duration-200 last:border-b-0 hover:bg-surface hover:text-accent"
+                >
+                  {r.label}
+                  <Icon name="arrow-out" size={14} />
+                  <span class="sr-only">(opens in new tab)</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button
+          type="button"
+          data-disclosure
+          aria-expanded="false"
+          aria-controls="site-menu"
+          class="flex h-11 w-11 items-center justify-center border border-line text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent md:hidden"
+        >
+          <Icon name="menu" size={20} class="icon-open" />
+          <Icon name="close" size={20} class="icon-close" />
+          <span class="sr-only">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile panel: full-width terminal menu list under the bar -->
+  <div id="site-menu" hidden class="border-t border-line bg-bg md:hidden">
+    <ul>
+      {
+        navigation.map((item) => (
+          <li class="border-b border-line">
+            <a
+              href={item.href}
+              class="text-label flex min-h-12 items-center px-4 uppercase text-text-muted transition-colors duration-200 hover:bg-surface hover:text-accent"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<style>
+  /* Hamburger icon swap driven purely by aria-expanded state. */
+  button[aria-expanded='false'] :global(.icon-close) {
+    display: none;
+  }
+  button[aria-expanded='true'] :global(.icon-open) {
+    display: none;
+  }
+</style>
+
+<script>
+  import '../scripts/menu';
+</script>

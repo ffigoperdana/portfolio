@@ -1,0 +1,55 @@
+---
+// Work-experience timeline: rail + nodes kept, each entry is now a
+// two-column card (date + company | role + summary + skill chips) so the
+// right side of the section carries content at desktop widths.
+// Data: src/data/experience.ts (condensed from Figo's CVs).
+import { experience } from '../data/experience';
+---
+
+<ol class="relative ml-1.5 border-l border-line" data-reveal-each="x">
+  {
+    experience.map((job) => {
+      const current = job.dateEnd === null;
+      return (
+        <li class="timeline-item relative pb-8 pl-6 last:pb-0 sm:pl-8">
+          <span
+            class:list={[
+              'timeline-node absolute top-7 rounded-full border',
+              current ? 'border-accent bg-accent' : 'border-line bg-bg',
+            ]}
+            aria-hidden="true"
+          />
+          <div class="group grid gap-4 border border-line bg-surface p-5 transition-colors duration-200 hover:border-accent sm:p-6 md:grid-cols-[240px_1fr] md:gap-8">
+            <div>
+              <p class="text-label mb-2 uppercase text-accent">{job.displayDate}</p>
+              <p class="font-heading text-xl font-semibold text-text transition-colors duration-200 group-hover:text-text-bright">
+                {job.company}
+              </p>
+            </div>
+            <div class="flex flex-col gap-3 md:border-l md:border-line md:pl-8">
+              <h3 class="text-headline-md text-text-bright">{job.role}</h3>
+              <p class="font-mono text-sm leading-relaxed text-text-muted">{job.summary}</p>
+              <ul class="mt-1 flex flex-wrap gap-2">
+                {job.skills.map((skill) => (
+                  <li class="text-label whitespace-nowrap border border-line bg-surface-raised px-2 py-1.5 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent">
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .timeline-node {
+    --node: 0.75rem; /* 12px circle */
+    width: var(--node);
+    height: var(--node);
+    /* Center the node on the 1px rail: half node + half border width. */
+    left: calc(-1 * (var(--node) / 2) - 0.5px);
+  }
+</style>

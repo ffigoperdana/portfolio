@@ -1,0 +1,47 @@
+---
+// Clipboard button. Ships [hidden]; scripts/copy.ts reveals and wires it.
+// `label` becomes the accessible name ("Copy email address").
+import Icon from './Icon.astro';
+
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<span class="inline-flex items-center">
+  <button
+    type="button"
+    hidden
+    data-copy={value}
+    aria-label={label}
+    class="copy-btn text-label flex min-h-11 items-center gap-1.5 border border-line px-3 uppercase text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+  >
+    <Icon name="copy" size={13} class="icon-copy" />
+    <Icon name="check" size={13} class="icon-check text-accent" />
+    <span data-copy-label>COPY</span>
+  </button>
+  <span role="status" class="sr-only"></span>
+</span>
+
+<style>
+  .copy-btn :global(.icon-check) {
+    display: none;
+  }
+  .copy-btn.copied :global(.icon-copy) {
+    display: none;
+  }
+  .copy-btn.copied :global(.icon-check) {
+    display: block;
+  }
+  .copy-btn.copied {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  import '../scripts/copy';
+</script>

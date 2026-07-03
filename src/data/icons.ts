@@ -1,0 +1,26 @@
+/** Names resolved by Icon.astro's inline-SVG registry (built in Phase 3+).
+ *  Kept as a union so data files fail `astro check` on a typo. */
+export type IconName =
+  | 'server'
+  | 'container'
+  | 'network'
+  | 'activity'
+  | 'code'
+  | 'github'
+  | 'linkedin'
+  | 'mail'
+  | 'arrow-out'
+  | 'copy'
+  | 'check'
+  | 'clock'
+  | 'pin'
+  | 'menu'
+  | 'close'
+  | 'warning'
+  | 'chain'
+  | 'globe'
+  | 'fingerprint'
+  | 'cloud'
+  | 'database'
+  | 'wrench'
+  | 'download';

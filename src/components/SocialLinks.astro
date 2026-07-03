@@ -1,0 +1,61 @@
+---
+import { socialLinks } from '../data/social';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** 'inline' = text links (footer); 'card' = bordered rows (contact). */
+  variant: 'inline' | 'card';
+}
+
+const { variant } = Astro.props;
+---
+
+{
+  variant === 'inline' ? (
+    <ul class="flex flex-wrap items-center gap-6">
+      {socialLinks.map((s) => (
+        <li>
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-mono text-sm text-text-muted transition-colors duration-200 hover:text-accent hover:underline hover:decoration-accent"
+          >
+            {s.label.toUpperCase()}
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <ul class="flex flex-col gap-4">
+      {socialLinks.map((s) => (
+        <li>
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex min-h-14 items-center justify-between gap-3 border border-line px-4 transition-colors duration-200 hover:border-accent hover:bg-surface"
+          >
+            <span class="flex items-center gap-3">
+              <Icon
+                name={s.icon}
+                size={18}
+                class="text-text-muted transition-colors duration-200 group-hover:text-accent"
+              />
+              <span class="font-mono text-text transition-colors duration-200 group-hover:text-text-bright">
+                {s.label}
+              </span>
+            </span>
+            <Icon
+              name="arrow-out"
+              size={16}
+              class="text-text-muted transition-colors duration-200 group-hover:text-accent"
+            />
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

@@ -1,0 +1,238 @@
+---
+// Project case-study page: one per non-draft collection entry.
+// Meta lives in a sticky aside from lg:; the markdown body renders through
+// the .prose styles in global.css. Prev/next follow the same newest-first
+// order as the home listing.
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+  const projects = (
+    await getCollection('projects', ({ data }) => !data.draft)
+  ).sort((a, b) => b.data.dateStart.valueOf() - a.data.dateStart.valueOf());
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      newer: projects[i - 1] ?? null,
+      older: projects[i + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  newer: CollectionEntry<'projects'> | null;
+  older: CollectionEntry<'projects'> | null;
+}
+
+const { project, newer, older } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+
+const fallbackDate =
+  d.dateEnd && d.dateEnd.getFullYear() !== d.dateStart.getFullYear()
+    ? `${d.dateStart.getFullYear()} — ${d.dateEnd.getFullYear()}`
+    : d.dateEnd
+      ? `${d.dateStart.getFullYear()}`
+      : `${d.dateStart.getFullYear()} — NOW`;
+const date = d.displayDate ?? fallbackDate;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': d.repositoryUrl ? 'SoftwareSourceCode' : 'CreativeWork',
+      name: d.title,
+      description: d.summary,
+      url: canonical,
+      ...(d.repositoryUrl && { codeRepository: d.repositoryUrl }),
+      dateCreated: d.dateStart.toISOString().slice(0, 10),
+      author: {
+        '@type': 'Person',
+        name: 'Figo Perdana Putra',
+        url: `${Astro.site}`,
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${Astro.site}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Projects',
+          item: `${Astro.site}#projects`,
+        },
+        { '@type': 'ListItem', position: 3, name: d.title, item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.seoDescription ?? d.summary}
+  ogImage={d.coverImage?.src}
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-8 lg:py-16">
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <a
+        href="/#projects"
+        class="text-label inline-flex min-h-11 items-center gap-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+      >
+        <span aria-hidden="true">&larr;</span> cd ../projects
+      </a>
+    </nav>
+
+    <header class="mb-10 flex flex-col gap-4 border-b border-line pb-10">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+        {
+          d.featured && (
+            <span class="text-label border border-accent px-2 py-1 uppercase text-accent">
+              FEATURED
+            </span>
+          )
+        }
+        <span
+          class="text-label border border-line bg-surface-raised px-2 py-1 uppercase text-text-muted"
+        >
+          {d.category}
+        </span>
+        <span class="whitespace-nowrap font-mono text-xs text-text-muted"
+          >{date}</span
+        >
+      </div>
+      <h1
+        class="text-headline-lg text-text-bright"
+        style={`view-transition-name: project-${project.id};`}
+      >
+        {d.title}
+      </h1>
+      <p class="max-w-[65ch] font-mono text-sm leading-relaxed text-text-muted">
+        {d.summary}
+      </p>
+      {
+        d.coverImage && (
+          <Image
+            src={d.coverImage}
+            alt={d.coverAlt ?? ''}
+            width={1200}
+            class="mt-2 max-h-80 w-full border border-line object-cover object-left"
+            draggable="false"
+            loading="eager"
+            fetchpriority="high"
+          />
+        )
+      }
+    </header>
+
+    <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+      <aside
+        class="mb-10 lg:sticky lg:top-24 lg:order-2 lg:col-span-4 lg:mb-0 lg:self-start"
+      >
+        <div class="flex flex-col gap-4 border border-line bg-surface p-5">
+          <div>
+            <p class="text-label mb-1 uppercase text-text-muted">ROLE</p>
+            <p class="font-mono text-sm text-text">{d.role}</p>
+          </div>
+          <div class="border-t border-dashed border-line pt-4">
+            <p class="text-label mb-2 uppercase text-text-muted">STACK</p>
+            <ul class="flex flex-wrap gap-2">
+              {
+                d.technologies.map((tech) => (
+                  <li class="whitespace-nowrap border border-line bg-surface-raised px-2 py-1 font-mono text-xs text-text">
+                    {tech}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          {
+            (d.repositoryUrl || d.liveUrl) && (
+              <div class="flex flex-col gap-1 border-t border-dashed border-line pt-4">
+                {d.repositoryUrl && (
+                  <a
+                    href={d.repositoryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-label flex min-h-11 items-center gap-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+                  >
+                    <Icon name="github" size={14} />
+                    SOURCE_CODE
+                    <span class="sr-only">(opens in new tab)</span>
+                  </a>
+                )}
+                {d.liveUrl && (
+                  <a
+                    href={d.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-label flex min-h-11 items-center gap-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+                  >
+                    <Icon name="arrow-out" size={14} />
+                    LIVE_DEPLOYMENT
+                    <span class="sr-only">(opens in new tab)</span>
+                  </a>
+                )}
+              </div>
+            )
+          }
+        </div>
+      </aside>
+
+      <article class="prose lg:order-1 lg:col-span-8">
+        <Content />
+      </article>
+    </div>
+
+    <nav
+      aria-label="Project navigation"
+      class="mt-16 grid gap-4 border-t border-line pt-8 sm:grid-cols-2"
+    >
+      {
+        older ? (
+          <a
+            href={`/projects/${older.id}/`}
+            class="group flex flex-col gap-1 border border-line bg-surface p-4 transition-colors duration-200 hover:border-accent"
+          >
+            <span class="text-label uppercase text-text-muted">
+              &larr; OLDER
+            </span>
+            <span class="font-heading font-semibold text-text group-hover:text-text-bright">
+              {older.data.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        newer && (
+          <a
+            href={`/projects/${newer.id}/`}
+            class="group flex flex-col gap-1 border border-line bg-surface p-4 text-right transition-colors duration-200 hover:border-accent sm:col-start-2"
+          >
+            <span class="text-label uppercase text-text-muted">
+              NEWER &rarr;
+            </span>
+            <span class="font-heading font-semibold text-text group-hover:text-text-bright">
+              {newer.data.title}
+            </span>
+          </a>
+        )
+      }
+    </nav>
+  </div>
+</BaseLayout>

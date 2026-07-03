@@ -1,0 +1,127 @@
+---
+// Full-width project row: content left, cover preview blending in from the
+// right (top strip on mobile). The title is the accessible case-study link
+// (stretched across the card); the corner arrow opens the LIVE deployment
+// and SOURCE stays a separate anchor — both layered above via z-10.
+// Covers live in src/assets/covers/<slug>.png (placeholders — Figo
+// overwrites them with real screenshots, same filename).
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const d = project.data;
+
+const fallbackDate =
+  d.dateEnd && d.dateEnd.getFullYear() !== d.dateStart.getFullYear()
+    ? `${d.dateStart.getFullYear()} — ${d.dateEnd.getFullYear()}`
+    : d.dateEnd
+      ? `${d.dateStart.getFullYear()}`
+      : `${d.dateStart.getFullYear()} — NOW`;
+const date = d.displayDate ?? fallbackDate;
+const href = `/projects/${project.id}/`;
+---
+
+<article
+  data-project-category={d.category}
+  class="group relative grid overflow-hidden border border-line bg-surface transition-colors duration-200 hover:border-accent sm:grid-cols-[1fr_300px] lg:grid-cols-[1fr_400px]"
+>
+  {
+    d.coverImage && (
+      <div class="relative order-first h-44 overflow-hidden sm:order-none sm:col-start-2 sm:row-start-1 sm:h-full">
+        <Image
+          src={d.coverImage}
+          alt={d.coverAlt ?? ''}
+          width={800}
+          class="h-full w-full object-cover object-left opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+          draggable="false"
+          loading="lazy"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent sm:bg-gradient-to-r sm:from-surface sm:via-surface/30 sm:to-transparent"
+          aria-hidden="true"
+        />
+      </div>
+    )
+  }
+
+  <div class="flex flex-col gap-4 p-5 sm:col-start-1 sm:row-start-1 sm:p-6 lg:p-8">
+    <div class="flex items-start justify-between gap-3">
+      <h3
+        class="text-headline-md min-w-0 break-words text-text"
+        style={`view-transition-name: project-${project.id};`}
+      >
+        <a
+          href={href}
+          class="card-link text-text transition-colors duration-200 group-hover:text-text-bright"
+        >
+          {d.title}
+          <span class="sr-only">— case study</span>
+        </a>
+      </h3>
+      {
+        d.liveUrl && (
+          <a
+            href={d.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open live deployment of ${d.title} (opens in new tab)`}
+            class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center border border-line text-text-muted transition-all duration-150 hover:-translate-y-0.5 hover:translate-x-0.5 hover:border-accent hover:text-accent"
+          >
+            <Icon name="arrow-out" size={16} />
+          </a>
+        )
+      }
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+      {d.featured && <span class="text-label border border-accent px-2 py-1 uppercase text-accent">FEATURED</span>}
+      <span class="text-label border border-line bg-surface-raised px-2 py-1 uppercase text-text-muted">
+        {d.category}
+      </span>
+      <span class="whitespace-nowrap font-mono text-xs text-text-muted">{date}</span>
+    </div>
+
+    <p class="max-w-[65ch] font-mono text-sm leading-relaxed text-text-muted">{d.summary}</p>
+
+    <div class="mt-auto flex flex-wrap items-end justify-between gap-4">
+      <ul class="flex flex-wrap gap-2">
+        {
+          d.technologies.map((tech) => (
+            <li class="whitespace-nowrap border border-line bg-surface-raised px-2 py-1 font-mono text-xs text-text transition-colors duration-150 hover:border-accent hover:text-accent">
+              {tech}
+            </li>
+          ))
+        }
+      </ul>
+      {
+        d.repositoryUrl && (
+          <a
+            href={d.repositoryUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-label relative z-10 flex items-center gap-1.5 py-2 uppercase text-text-muted transition-colors duration-200 hover:text-accent"
+          >
+            <Icon name="github" size={14} />
+            SOURCE
+            <span class="sr-only">of {d.title} (opens in new tab)</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Stretched link: the title anchor covers the whole card; the live-arrow
+     and SOURCE anchors sit above it via z-10. */
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+</style>

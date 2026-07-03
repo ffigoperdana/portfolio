@@ -1,0 +1,138 @@
+---
+// Hanging ID card visuals. Physics (swing/drag) lives in scripts/lanyard.ts,
+// wired to the [data-lanyard] rig in Hero.astro. No headings inside the card
+// (a11y: keeps the page outline clean); decorative chrome is aria-hidden.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  name: string;
+  roleLine: string;
+  photo?: ImageMetadata;
+}
+
+const { name, roleLine, photo } = Astro.props;
+---
+
+<div class="relative w-full border border-line bg-surface p-6">
+  <!-- Punched lanyard slot -->
+  <div
+    class="mx-auto mb-4 h-2 w-10 border border-line bg-bg"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Decorative corner brackets + side ticks -->
+  <div
+    class="pointer-events-none absolute right-2 top-2 h-14 w-14 border-r-2 border-t-2 border-accent opacity-50"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-2 left-2 h-14 w-14 border-b-2 border-l-2 border-accent opacity-50"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute left-0 top-1/4 h-8 w-1 bg-accent opacity-80"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-1/4 right-0 h-8 w-1 bg-accent opacity-80"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mb-5 flex items-center justify-between border-b border-line pb-2">
+    <span
+      class="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-text-muted"
+      aria-hidden="true"
+    >
+      ID_CARD // FGDEV
+    </span>
+    <Icon name="chain" size={14} class="text-accent" />
+  </div>
+
+  <div class="mb-5 flex flex-col items-center">
+    <div class="relative mb-4 border border-accent p-1">
+      <div class="absolute -left-1 -top-1 h-2 w-2 bg-accent" aria-hidden="true">
+      </div>
+      <div
+        class="absolute -right-1 -top-1 h-2 w-2 bg-accent"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="absolute -bottom-1 -left-1 h-2 w-2 bg-accent"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="absolute -bottom-1 -right-1 h-2 w-2 bg-accent"
+        aria-hidden="true"
+      >
+      </div>
+      {
+        photo ? (
+          <Image
+            src={photo}
+            alt={`Portrait of ${name}`}
+            width={256}
+            height={320}
+            class="h-40 w-32 object-cover"
+            draggable="false"
+            loading="eager"
+          />
+        ) : (
+          <div class="flex h-40 w-32 items-center justify-center bg-surface-raised">
+            <Icon name="server" size={40} class="text-text-muted opacity-50" />
+          </div>
+        )
+      }
+    </div>
+    <p class="text-center">
+      <strong
+        class="font-heading text-2xl uppercase tracking-wider text-text-bright"
+        >{name}</strong
+      >
+      <span
+        class="mt-1 block font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-accent"
+      >
+        {roleLine}
+      </span>
+    </p>
+  </div>
+
+  <div
+    class="relative flex flex-col gap-2 border border-line bg-surface-raised p-3"
+  >
+    <div class="absolute -left-2 top-1/2 h-px w-4 bg-accent" aria-hidden="true">
+    </div>
+    <div
+      class="flex items-center justify-between font-mono text-[11px] uppercase text-text-muted"
+      aria-hidden="true"
+    >
+      <span>NO FG-2609</span>
+      <span>DEP. INFRA</span>
+    </div>
+    <!-- Barcode stripe -->
+    <div
+      class="h-8 opacity-70"
+      style="background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, #9cdef2 2px, #9cdef2 4px);"
+      aria-hidden="true"
+    >
+    </div>
+  </div>
+
+  <div
+    class="mt-4 flex items-start gap-2 border-t border-dashed border-line pt-4"
+    aria-hidden="true"
+  >
+    <Icon name="warning" size={14} class="mt-0.5 shrink-0 text-danger" />
+    <p class="font-mono text-[11px] leading-tight text-text-muted">
+      AUTHORIZED PERSONNEL ONLY. SYSTEM ACCESS LOGGED AND MONITORED.
+    </p>
+  </div>
+</div>

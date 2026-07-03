@@ -1,0 +1,109 @@
+/**
+ * Entrance + scroll reveals (Motion mini `animate` + `inView`).
+ *
+ * Hooks:
+ *   [data-reveal-load]          — load-time stagger over direct children (hero text)
+ *   [data-reveal-fade]          — load-time opacity-only fade (lanyard scene:
+ *                                 transform stays owned by the physics)
+ *   [data-reveal-group="x|y"]   — children stagger when the group scrolls into
+ *                                 view; optional [data-reveal-stagger="0.07"]
+ *   [data-reveal-each="x|y"]    — each direct child reveals on its own entry
+ *                                 (experience timeline)
+ *
+ * Hidden states are applied HERE, not in CSS — users without JS (and
+ * reduced-motion users) always see the full content. One-shot: observers
+ * stop after firing. MPA: no teardown needed.
+ */
+import { animate } from 'motion/mini';
+import { inView } from 'motion';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const FROM = { x: 'translateX(-8px)', y: 'translateY(12px)' } as const;
+const TO = { x: 'translateX(0px)', y: 'translateY(0px)' } as const;
+
+type Axis = keyof typeof FROM;
+
+function axisOf(value: string | undefined): Axis {
+  return value === 'x' ? 'x' : 'y';
+}
+
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // Load-time stagger groups
+  for (const group of document.querySelectorAll<HTMLElement>(
+    '[data-reveal-load]',
+  )) {
+    [...group.children].forEach((child, i) => {
+      const el = child as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = FROM.y;
+      animate(
+        el,
+        { opacity: 1, transform: TO.y },
+        { duration: 0.4, delay: i * 0.06, ease: EASE },
+      );
+    });
+  }
+
+  // Load-time opacity fade (no transform — physics owns it)
+  for (const el of document.querySelectorAll<HTMLElement>(
+    '[data-reveal-fade]',
+  )) {
+    el.style.opacity = '0';
+    animate(
+      el,
+      { opacity: 1 },
+      { duration: 0.5, delay: 0.12, ease: 'easeOut' },
+    );
+  }
+
+  // Scroll-triggered group staggers
+  for (const group of document.querySelectorAll<HTMLElement>(
+    '[data-reveal-group]',
+  )) {
+    const axis = axisOf(group.dataset.revealGroup);
+    const step = Number(group.dataset.revealStagger ?? '0.08');
+    const items = [...group.children] as HTMLElement[];
+    for (const el of items) {
+      el.style.opacity = '0';
+      el.style.transform = FROM[axis];
+    }
+    const stop = inView(
+      group,
+      () => {
+        items.forEach((el, i) =>
+          animate(
+            el,
+            { opacity: 1, transform: TO[axis] },
+            { duration: 0.35, delay: i * step, ease: EASE },
+          ),
+        );
+        stop();
+      },
+      { amount: 0.15 },
+    );
+  }
+
+  // Per-item scroll reveals
+  for (const parent of document.querySelectorAll<HTMLElement>(
+    '[data-reveal-each]',
+  )) {
+    const axis = axisOf(parent.dataset.revealEach);
+    for (const child of parent.children) {
+      const el = child as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = FROM[axis];
+      const stop = inView(
+        el,
+        () => {
+          animate(
+            el,
+            { opacity: 1, transform: TO[axis] },
+            { duration: 0.35, ease: EASE },
+          );
+          stop();
+        },
+        { amount: 0.35 },
+      );
+    }
+  }
+}

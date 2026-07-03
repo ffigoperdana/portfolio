@@ -1,0 +1,142 @@
+---
+// WEB3_HUB — Figo's real Cloaked payment identity, laid out after the
+// prototype's CRYPTOGRAPHIC_HUB panel but in this site's design system
+// (sharp, cyan, no ambient glow). Sits beside IO_CONTACT from xl:.
+//
+// Honesty rules: the embedded 0x address is explicitly labeled a SNAPSHOT
+// (the live page mints a fresh address per payment — verified: two visits
+// produced two different addresses); QR + OPEN always point at the live page.
+import { site } from '../data/site';
+import CopyButton from './CopyButton.astro';
+import Icon from './Icon.astro';
+
+const { web3 } = site;
+const addr = web3.addressSnapshot;
+const addrShort = `${addr.slice(0, 10)}...${addr.slice(-8)}`;
+---
+
+<div class="flex flex-col border border-line bg-surface">
+  <!-- Panel header -->
+  <div class="flex items-center justify-between gap-3 border-b border-line p-4">
+    <span
+      class="inline-flex items-center gap-2.5 border border-line bg-surface-raised px-3 py-1.5"
+    >
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="text-label uppercase text-text">CRYPTOGRAPHIC_HUB</span>
+    </span>
+    <a
+      href={web3.payUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open live payment page (opens in new tab)"
+      class="flex h-10 w-10 items-center justify-center border border-line text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+    >
+      <Icon name="arrow-out" size={15} />
+    </a>
+  </div>
+
+  <!-- Cloaked identities panel -->
+  <div class="flex flex-col gap-4 p-4 sm:p-5">
+    <div
+      class="flex flex-col gap-4 border border-line bg-surface-raised p-4 sm:p-5"
+    >
+      <p class="text-label uppercase text-accent">CLOAKED_IDENTITIES</p>
+
+      <div>
+        <h3 class="font-heading text-lg font-semibold text-text-bright">
+          Rotating cloaked identities
+        </h3>
+        <p
+          class="mt-1.5 max-w-[48ch] font-mono text-xs leading-relaxed text-text-muted"
+        >
+          Send payment to the active identity — every payment gets a fresh
+          address behind <span class="text-accent">{web3.cloakedName}</span>, so
+          no public trail accumulates on one wallet.
+        </p>
+      </div>
+
+      <!-- Active identity -->
+      <div class="flex flex-col gap-3 border border-line bg-bg p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <p class="text-label uppercase text-text-muted">ACTIVE_IDENTITY</p>
+          <span
+            class="inline-flex items-center gap-2 border border-line bg-surface-raised px-2.5 py-1"
+          >
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="text-label uppercase text-text">AUTO_ROTATE</span>
+          </span>
+        </div>
+        <p class="font-mono text-sm font-bold text-text">
+          fgdev <span class="text-text-muted">/</span>
+          <span class="text-accent">{web3.cloakedName}</span>
+        </p>
+        <div
+          class="flex items-center justify-between gap-2 border border-line bg-surface-raised px-3 py-1.5"
+        >
+          <code
+            class="min-w-0 truncate font-mono text-xs text-text"
+            title={addr}>{addrShort}</code
+          >
+          <CopyButton value={addr} label="Copy wallet address" />
+        </div>
+        <p class="font-mono text-[11px] leading-tight text-text-muted">
+          SNAPSHOT — the live page serves a fresh address per payment.
+        </p>
+      </div>
+
+      <!-- ENS + network -->
+      <div class="grid gap-3 sm:grid-cols-2">
+        <div
+          class="flex items-center justify-between gap-2 border border-line bg-bg p-3"
+        >
+          <div class="min-w-0">
+            <p class="text-label mb-1 uppercase text-text-muted">CUSTOM_ENS</p>
+            <p class="truncate font-mono text-sm text-text">{web3.ens}</p>
+          </div>
+          <CopyButton value={web3.ens} label="Copy ENS name" />
+        </div>
+        <div class="border border-line bg-bg p-3">
+          <p class="text-label mb-1 uppercase text-text-muted">NETWORK</p>
+          <p class="inline-flex items-center gap-2 font-mono text-sm text-text">
+            <span class="status-dot" aria-hidden="true"></span>
+            Ethereum &middot; ENS
+          </p>
+        </div>
+      </div>
+
+      <!-- QR -->
+      <div
+        class="flex flex-col items-center gap-3 border border-line bg-bg p-4"
+      >
+        <img
+          src="/qr-clkd.svg"
+          alt={`QR code linking to ${web3.payUrl}`}
+          width="140"
+          height="140"
+          class="h-35 w-35"
+          loading="lazy"
+        />
+        <p class="text-label uppercase text-accent">SCAN_FOR_FRESH_ADDRESS</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel footer -->
+  <a
+    href={web3.payUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group flex min-h-12 items-center justify-between gap-3 border-t border-line px-4"
+  >
+    <span class="text-label uppercase text-accent"
+      >VIEW_LIVE_PAYMENT_IDENTITY</span
+    >
+    <span
+      class="text-label flex items-center gap-1.5 uppercase text-text-muted transition-colors duration-200 group-hover:text-accent"
+    >
+      OPEN
+      <Icon name="arrow-out" size={13} />
+    </span>
+    <span class="sr-only">(opens in new tab)</span>
+  </a>
+</div>

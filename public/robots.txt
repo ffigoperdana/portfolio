@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fgdev.tech/sitemap-index.xml
