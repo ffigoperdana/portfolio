@@ -69,15 +69,38 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
       }
     </div>
 
-    <iframe
-      src={`${resume.path}#toolbar=0&navpanes=0`}
-      title={`${niceName} resume PDF preview`}
-      class="h-[80vh] w-full border border-line bg-surface"></iframe>
+    <!-- <object> renders its children wherever inline PDFs are unsupported
+         (Android Chrome has no inline viewer) — graceful built-in fallback. -->
+    <object
+      data={`${resume.path}#toolbar=0&navpanes=0`}
+      type="application/pdf"
+      aria-label={`${niceName} resume PDF preview`}
+      class="h-[80vh] w-full border border-line bg-surface"
+    >
+      <div
+        class="flex h-[80vh] w-full flex-col items-center justify-center gap-4 p-8 text-center"
+      >
+        <Icon name="download" size={28} class="text-accent" />
+        <p
+          class="max-w-[36ch] font-mono text-sm leading-relaxed text-text-muted"
+        >
+          This browser can't preview PDFs inline — grab the file instead:
+        </p>
+        <a
+          href={resume.path}
+          download
+          class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+        >
+          <Icon name="download" size={14} />
+          DOWNLOAD_PDF
+        </a>
+      </div>
+    </object>
 
     <p class="font-mono text-xs text-text-muted">
-      Preview not rendering (some mobile browsers)? Use DOWNLOAD_PDF above, or
+      Prefer the raw file?
       <a href={resume.path} class="text-accent underline underline-offset-2"
-        >open the raw file</a
+        >Open it directly</a
       >.
     </p>
   </div>

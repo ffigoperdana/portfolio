@@ -9,10 +9,15 @@ function initResumeDialog(): void {
   );
   if (!dialog || typeof dialog.showModal !== 'function') return;
 
-  const frame = dialog.querySelector<HTMLIFrameElement>('[data-resume-frame]');
+  // <object> instead of <iframe>: its children render as an automatic
+  // fallback on browsers without inline PDF support (Android Chrome).
+  const frame = dialog.querySelector<HTMLObjectElement>('[data-resume-frame]');
   const title = dialog.querySelector<HTMLElement>('[data-resume-title]');
   const download = dialog.querySelector<HTMLAnchorElement>(
     '[data-resume-download]',
+  );
+  const fallbackDownload = dialog.querySelector<HTMLAnchorElement>(
+    '[data-resume-download-fallback]',
   );
   const permalink = dialog.querySelector<HTMLAnchorElement>(
     '[data-resume-permalink]',
@@ -27,7 +32,7 @@ function initResumeDialog(): void {
   });
   // Free the PDF renderer when closed (also stops mobile viewers).
   dialog.addEventListener('close', () => {
-    frame.src = '';
+    frame.data = '';
   });
 
   for (const link of document.querySelectorAll<HTMLAnchorElement>(
@@ -37,8 +42,9 @@ function initResumeDialog(): void {
       e.preventDefault();
       const href = link.getAttribute('href') ?? '';
       title.textContent = link.dataset.resumeLabel ?? 'RESUME';
-      frame.src = `${href}#toolbar=0&navpanes=0`;
+      frame.data = `${href}#toolbar=0&navpanes=0`;
       download.href = href;
+      if (fallbackDownload) fallbackDownload.href = href;
       if (permalink && link.dataset.resumeSlug) {
         permalink.href = `/resume/${link.dataset.resumeSlug}/`;
       }

@@ -42,10 +42,32 @@ import Icon from './Icon.astro';
       </button>
     </div>
   </div>
-  <iframe
+  <!-- <object> renders its children wherever inline PDFs are unsupported
+       (Android Chrome has no inline viewer) — graceful built-in fallback. -->
+  <object
     data-resume-frame
-    title="Resume PDF preview"
-    class="block h-[75vh] w-full bg-surface"></iframe>
+    type="application/pdf"
+    aria-label="Resume PDF preview"
+    class="block h-[75vh] w-full bg-surface"
+  >
+    <div
+      class="flex h-[75vh] w-full flex-col items-center justify-center gap-4 p-8 text-center"
+    >
+      <Icon name="download" size={28} class="text-accent" />
+      <p class="max-w-[36ch] font-mono text-sm leading-relaxed text-text-muted">
+        This browser can't preview PDFs inline — grab the file instead:
+      </p>
+      <a
+        href="#"
+        download
+        data-resume-download-fallback
+        class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
+      >
+        <Icon name="download" size={14} />
+        DOWNLOAD_PDF
+      </a>
+    </div>
+  </object>
 </dialog>
 
 <script>
