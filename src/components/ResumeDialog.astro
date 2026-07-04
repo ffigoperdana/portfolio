@@ -50,12 +50,23 @@ import Icon from './Icon.astro';
     aria-label="Resume PDF preview"
     class="block h-[75vh] w-full bg-surface"
   >
+    <!-- Fallback (Android has no inline PDF viewer): a page-1 image preview
+         so the CV is still VISIBLE, plus a download for the full file. The
+         image src is set by JS only when the dialog opens, so it is never
+         fetched on desktop (where the object renders the real PDF). -->
     <div
-      class="flex h-[75vh] w-full flex-col items-center justify-center gap-4 p-8 text-center"
+      class="flex w-full flex-col items-center gap-4 bg-surface p-5 text-center"
     >
-      <Icon name="download" size={28} class="text-accent" />
-      <p class="max-w-[36ch] font-mono text-sm leading-relaxed text-text-muted">
-        This browser can't preview PDFs inline — grab the file instead:
+      <img
+        data-resume-preview
+        alt="Resume — page 1 preview"
+        width="1000"
+        height="1294"
+        class="w-full max-w-[520px] border border-line"
+        loading="lazy"
+      />
+      <p class="font-mono text-xs text-text-muted">
+        Page 1 preview — download the PDF for the complete document.
       </p>
       <a
         href="#"

@@ -19,6 +19,9 @@ function initResumeDialog(): void {
   const fallbackDownload = dialog.querySelector<HTMLAnchorElement>(
     '[data-resume-download-fallback]',
   );
+  const preview = dialog.querySelector<HTMLImageElement>(
+    '[data-resume-preview]',
+  );
   const permalink = dialog.querySelector<HTMLAnchorElement>(
     '[data-resume-permalink]',
   );
@@ -42,12 +45,15 @@ function initResumeDialog(): void {
       e.preventDefault();
       const href = link.getAttribute('href') ?? '';
       title.textContent = link.dataset.resumeLabel ?? 'RESUME';
+      const slug = link.dataset.resumeSlug;
       frame.data = `${href}#toolbar=0&navpanes=0`;
       download.href = href;
       if (fallbackDownload) fallbackDownload.href = href;
-      if (permalink && link.dataset.resumeSlug) {
-        permalink.href = `/resume/${link.dataset.resumeSlug}/`;
-      }
+      // Point the fallback preview at this resume's page-1 image. Setting
+      // src here (not in markup) means it is only ever fetched when the
+      // fallback actually shows — i.e. on browsers that can't render the PDF.
+      if (preview && slug) preview.src = `/resume/${slug}-preview.webp`;
+      if (permalink && slug) permalink.href = `/resume/${slug}/`;
       dialog.showModal();
     });
   }

@@ -77,14 +77,21 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
       aria-label={`${niceName} resume PDF preview`}
       class="h-[80vh] w-full border border-line bg-surface"
     >
+      <!-- Fallback (Android has no inline PDF viewer): page-1 image so the
+           CV stays VISIBLE, plus a download for the full file. -->
       <div
-        class="flex h-[80vh] w-full flex-col items-center justify-center gap-4 p-8 text-center"
+        class="flex w-full flex-col items-center gap-4 bg-surface p-5 text-center"
       >
-        <Icon name="download" size={28} class="text-accent" />
-        <p
-          class="max-w-[36ch] font-mono text-sm leading-relaxed text-text-muted"
-        >
-          This browser can't preview PDFs inline — grab the file instead:
+        <img
+          src={`/resume/${resume.slug}-preview.webp`}
+          alt={`${niceName} resume — page 1 preview`}
+          width="1000"
+          height="1294"
+          class="w-full max-w-[560px] border border-line"
+          loading="lazy"
+        />
+        <p class="font-mono text-xs text-text-muted">
+          Page 1 preview — download the PDF for the complete document.
         </p>
         <a
           href={resume.path}
