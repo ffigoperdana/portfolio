@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+# Least privilege: this workflow only reads the repo (build + checks).
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -30,8 +34,9 @@ jobs:
 
       # Internal links only — external hosts (LinkedIn, GitHub, live apps)
       # rate-limit CI runners and would make the pipeline flaky.
+      # Pinned version so CI never fetch-and-executes a floating latest.
       - name: Internal link check
-        run: npx linkinator ./dist --recurse --skip "^https?://"
+        run: npx --yes linkinator@6.1.2 ./dist --recurse --skip "^https?://"
 
       - name: Docker build smoke test
         run: docker build -t portfolio-smoke .
