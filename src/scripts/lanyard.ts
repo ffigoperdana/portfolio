@@ -59,6 +59,7 @@ function initLanyard(): void {
   let dragged = false;
   let pressX = 0;
   let pressY = 0;
+  let grabOffset = 0; // pointer-angle minus card-angle at drag start
   let clickTimer = 0;
   let holdTimer = 0;
 
@@ -179,8 +180,12 @@ function initLanyard(): void {
       window.clearTimeout(clickTimer);
       window.clearTimeout(holdTimer);
       mode = 'front'; // grabbed card turns to face the viewer
+      // Grab-offset: you grabbed the card wherever your pointer is — the
+      // card must move RELATIVE to that grip, not snap its hang-angle to
+      // the cursor (the old snap was a visible twitch on every drag start).
+      grabOffset = angleToPointer(e) - theta;
     }
-    dragTarget = angleToPointer(e);
+    dragTarget = clamp(angleToPointer(e) - grabOffset, -MAX_ANGLE, MAX_ANGLE);
   });
 
   const release = (): void => {
