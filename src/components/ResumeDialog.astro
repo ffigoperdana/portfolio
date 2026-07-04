@@ -42,43 +42,40 @@ import Icon from './Icon.astro';
       </button>
     </div>
   </div>
-  <!-- <object> renders its children wherever inline PDFs are unsupported
-       (Android Chrome has no inline viewer) — graceful built-in fallback. -->
-  <object
+  <!-- Deterministic split (resume-dialog.ts): browsers that render PDFs
+       inline (navigator.pdfViewerEnabled) get the iframe; the rest (Android
+       Chrome) get the page-1 image. <object>'s auto-fallback was flaky on
+       desktop, so we choose explicitly instead of relying on it. -->
+  <iframe
     data-resume-frame
-    type="application/pdf"
-    aria-label="Resume PDF preview"
+    title="Resume PDF preview"
     class="block h-[75vh] w-full bg-surface"
+    hidden></iframe>
+  <div
+    data-resume-fallback
+    hidden
+    class="flex w-full flex-col items-center gap-4 bg-surface p-5 text-center"
   >
-    <!-- Fallback (Android has no inline PDF viewer): a page-1 image preview
-         so the CV is still VISIBLE, plus a download for the full file. The
-         image src is set by JS only when the dialog opens, so it is never
-         fetched on desktop (where the object renders the real PDF). -->
-    <div
-      class="flex w-full flex-col items-center gap-4 bg-surface p-5 text-center"
+    <img
+      data-resume-preview
+      alt="Resume — page 1 preview"
+      width="1000"
+      height="1294"
+      class="w-full max-w-[520px] border border-line"
+    />
+    <p class="font-mono text-xs text-text-muted">
+      Page 1 preview — download the PDF for the complete document.
+    </p>
+    <a
+      href="#"
+      download
+      data-resume-download-fallback
+      class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
     >
-      <img
-        data-resume-preview
-        alt="Resume — page 1 preview"
-        width="1000"
-        height="1294"
-        class="w-full max-w-[520px] border border-line"
-        loading="lazy"
-      />
-      <p class="font-mono text-xs text-text-muted">
-        Page 1 preview — download the PDF for the complete document.
-      </p>
-      <a
-        href="#"
-        download
-        data-resume-download-fallback
-        class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
-      >
-        <Icon name="download" size={14} />
-        DOWNLOAD_PDF
-      </a>
-    </div>
-  </object>
+      <Icon name="download" size={14} />
+      DOWNLOAD_PDF
+    </a>
+  </div>
 </dialog>
 
 <script>

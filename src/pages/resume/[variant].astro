@@ -69,40 +69,40 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
       }
     </div>
 
-    <!-- <object> renders its children wherever inline PDFs are unsupported
-         (Android Chrome has no inline viewer) — graceful built-in fallback. -->
-    <object
-      data={`${resume.path}#toolbar=0&navpanes=0`}
-      type="application/pdf"
-      aria-label={`${niceName} resume PDF preview`}
-      class="h-[80vh] w-full border border-line bg-surface"
+    <!-- Deterministic split (resume-view.ts): browsers that render PDFs
+         inline get the iframe; Android Chrome (pdfViewerEnabled === false)
+         gets the page-1 image. Server-renders the iframe so desktop works
+         even without JS; the script only swaps in the image when needed. -->
+    <iframe
+      data-resume-frame
+      src={`${resume.path}#toolbar=0&navpanes=0`}
+      title={`${niceName} resume PDF preview`}
+      class="h-[80vh] w-full border border-line bg-surface"></iframe>
+    <div
+      data-resume-fallback
+      hidden
+      class="flex w-full flex-col items-center gap-4 border border-line bg-surface p-5 text-center"
     >
-      <!-- Fallback (Android has no inline PDF viewer): page-1 image so the
-           CV stays VISIBLE, plus a download for the full file. -->
-      <div
-        class="flex w-full flex-col items-center gap-4 bg-surface p-5 text-center"
+      <img
+        src={`/resume/${resume.slug}-preview.webp`}
+        alt={`${niceName} resume — page 1 preview`}
+        width="1000"
+        height="1294"
+        class="w-full max-w-[560px] border border-line"
+        loading="lazy"
+      />
+      <p class="font-mono text-xs text-text-muted">
+        Page 1 preview — download the PDF for the complete document.
+      </p>
+      <a
+        href={resume.path}
+        download
+        class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
       >
-        <img
-          src={`/resume/${resume.slug}-preview.webp`}
-          alt={`${niceName} resume — page 1 preview`}
-          width="1000"
-          height="1294"
-          class="w-full max-w-[560px] border border-line"
-          loading="lazy"
-        />
-        <p class="font-mono text-xs text-text-muted">
-          Page 1 preview — download the PDF for the complete document.
-        </p>
-        <a
-          href={resume.path}
-          download
-          class="text-label flex min-h-12 items-center gap-2 border border-accent bg-accent px-8 uppercase text-on-accent transition-all duration-200 hover:bg-transparent hover:text-accent hover:crt-glow"
-        >
-          <Icon name="download" size={14} />
-          DOWNLOAD_PDF
-        </a>
-      </div>
-    </object>
+        <Icon name="download" size={14} />
+        DOWNLOAD_PDF
+      </a>
+    </div>
 
     <p class="font-mono text-xs text-text-muted">
       Prefer the raw file?
@@ -111,4 +111,8 @@ const niceName = resume.label.replace('RESUME_', '').replaceAll('_', ' ');
       >.
     </p>
   </div>
+
+  <script>
+    import '../../scripts/resume-view';
+  </script>
 </BaseLayout>
