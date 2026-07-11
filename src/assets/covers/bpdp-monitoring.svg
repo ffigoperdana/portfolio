@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Production Monitoring and Alerting Platform</title>
+  <desc id="desc">Professional DevOps project cover for an observability platform.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#12333d" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#101112" />
+  <rect width="1200" height="675" fill="url(#grid)" />
+  <rect x="20" y="20" width="1160" height="635" fill="none" stroke="#355a66" stroke-width="2" />
+  <rect x="20" y="20" width="200" height="5" fill="#9cdef2" />
+  <g fill="none" stroke="#355a66" stroke-width="2" opacity="0.8">
+    <rect x="730" y="92" width="185" height="118" />
+    <rect x="944" y="92" width="185" height="118" />
+    <rect x="730" y="238" width="399" height="108" />
+    <rect x="730" y="374" width="185" height="108" />
+    <rect x="944" y="374" width="185" height="108" />
+  </g>
+  <g fill="none" stroke="#9cdef2" stroke-width="3" opacity="0.7">
+    <path d="M750 180 L780 145 810 162 845 125 880 170" />
+    <path d="M964 172 L990 148 1020 160 1055 118 1104 145" />
+    <path d="M752 312 H1105" stroke-dasharray="10 9" />
+    <path d="M752 448 H892 M966 448 H1105" stroke-dasharray="10 9" />
+  </g>
+  <g fill="#9cdef2" opacity="0.7">
+    <circle cx="754" cy="270" r="6" /><circle cx="790" cy="270" r="6" /><circle cx="826" cy="270" r="6" />
+    <circle cx="862" cy="270" r="6" /><circle cx="898" cy="270" r="6" /><circle cx="934" cy="270" r="6" />
+  </g>
+  <text x="80" y="300" fill="#9cdef2" font-family="JetBrains Mono, monospace" font-size="28">~/projects/bpdp-monitoring</text>
+  <text x="80" y="380" fill="#e5e2e1" font-family="Space Grotesk, Arial, sans-serif" font-size="58" font-weight="700">Production Monitoring</text>
+  <text x="80" y="443" fill="#e5e2e1" font-family="Space Grotesk, Arial, sans-serif" font-size="58" font-weight="700">&amp; Alerting Platform</text>
+  <text x="80" y="505" fill="#bfc8cb" font-family="JetBrains Mono, monospace" font-size="25">PROFESSIONAL  •  Prometheus  •  Grafana</text>
+  <text x="930" y="630" fill="#355a66" font-family="JetBrains Mono, monospace" font-size="18">OBSERVABILITY // 2026</text>
+</svg>

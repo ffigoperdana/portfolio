@@ -9,6 +9,7 @@ displayDate: '2024 - 2025'
 technologies: ['Go', 'Gin', 'PostgreSQL', 'GORM', 'JWT', 'Docker']
 featured: false
 repositoryUrl: 'https://github.com/ffigoperdana/mygram'
+liveUrl: 'https://mygram.fgdev.tech/'
 coverImage: '../../assets/covers/mygram.png'
 coverAlt: 'MyGram interface preview'
 draft: false

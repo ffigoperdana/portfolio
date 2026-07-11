@@ -15,6 +15,8 @@ technologies:
     'Node Exporter',
   ]
 featured: true
+coverImage: '../../assets/covers/bpdp-monitoring.svg'
+coverAlt: 'Production Monitoring and Alerting Platform cover'
 draft: false
 seoDescription: 'Production monitoring and alerting platform using Prometheus, Grafana, Loki, Alloy, and exporters for BPDP applications.'
 ---

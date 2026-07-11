@@ -7,6 +7,8 @@ dateStart: 2026-01-01
 displayDate: '2026'
 technologies: ['Restic', 'MySQL', 'SSH', 'rsync', 'Bash', 'Cron']
 featured: true
+coverImage: '../../assets/covers/bpdp-restic-backup.svg'
+coverAlt: 'Centralized Restic Backup and SYSmon Reporting cover'
 draft: false
 seoDescription: 'Centralized Restic backup and SYSmon reporting workflows for BPDP application files and MySQL databases.'
 ---
