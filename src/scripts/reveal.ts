@@ -27,6 +27,18 @@ function axisOf(value: string | undefined): Axis {
   return value === 'x' ? 'x' : 'y';
 }
 
+// Safari on iOS can keep elements hidden after an IntersectionObserver-based
+// Motion reveal until the user causes a repaint (for example by tapping a
+// filter). Keep scroll-reveal content visible there; it is a progressive
+// enhancement, never a prerequisite for seeing the page.
+const isIOSSafari = (() => {
+  const ua = navigator.userAgent;
+  const isIOS =
+    /iP(?:hone|ad|od)/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  return isIOS && /WebKit/.test(ua) && !/(CriOS|FxiOS|EdgiOS|OPiOS)/.test(ua);
+})();
+
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   // Load-time reveals wait for the boot overlay (if present on this page)
   // so the hero entrance isn't wasted behind it. boot.ts always announces,
@@ -83,54 +95,56 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     runLoadReveals();
   }
 
-  // Scroll-triggered group staggers
-  for (const group of document.querySelectorAll<HTMLElement>(
-    '[data-reveal-group]',
-  )) {
-    const axis = axisOf(group.dataset.revealGroup);
-    const step = Number(group.dataset.revealStagger ?? '0.08');
-    const items = [...group.children] as HTMLElement[];
-    for (const el of items) {
-      el.style.opacity = '0';
-      el.style.transform = FROM[axis];
-    }
-    const stop = inView(
-      group,
-      () => {
-        items.forEach((el, i) =>
-          animate(
-            el,
-            { opacity: 1, transform: TO[axis] },
-            { duration: 0.35, delay: i * step, ease: EASE },
-          ),
-        );
-        stop();
-      },
-      { amount: 0.15 },
-    );
-  }
-
-  // Per-item scroll reveals
-  for (const parent of document.querySelectorAll<HTMLElement>(
-    '[data-reveal-each]',
-  )) {
-    const axis = axisOf(parent.dataset.revealEach);
-    for (const child of parent.children) {
-      const el = child as HTMLElement;
-      el.style.opacity = '0';
-      el.style.transform = FROM[axis];
+  if (!isIOSSafari) {
+    // Scroll-triggered group staggers
+    for (const group of document.querySelectorAll<HTMLElement>(
+      '[data-reveal-group]',
+    )) {
+      const axis = axisOf(group.dataset.revealGroup);
+      const step = Number(group.dataset.revealStagger ?? '0.08');
+      const items = [...group.children] as HTMLElement[];
+      for (const el of items) {
+        el.style.opacity = '0';
+        el.style.transform = FROM[axis];
+      }
       const stop = inView(
-        el,
+        group,
         () => {
-          animate(
-            el,
-            { opacity: 1, transform: TO[axis] },
-            { duration: 0.35, ease: EASE },
+          items.forEach((el, i) =>
+            animate(
+              el,
+              { opacity: 1, transform: TO[axis] },
+              { duration: 0.35, delay: i * step, ease: EASE },
+            ),
           );
           stop();
         },
-        { amount: 0.35 },
+        { amount: 0.15 },
       );
+    }
+
+    // Per-item scroll reveals
+    for (const parent of document.querySelectorAll<HTMLElement>(
+      '[data-reveal-each]',
+    )) {
+      const axis = axisOf(parent.dataset.revealEach);
+      for (const child of parent.children) {
+        const el = child as HTMLElement;
+        el.style.opacity = '0';
+        el.style.transform = FROM[axis];
+        const stop = inView(
+          el,
+          () => {
+            animate(
+              el,
+              { opacity: 1, transform: TO[axis] },
+              { duration: 0.35, ease: EASE },
+            );
+            stop();
+          },
+          { amount: 0.35 },
+        );
+      }
     }
   }
 }
