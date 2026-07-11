@@ -6,36 +6,37 @@ export interface ExperienceEntry {
   dateStart: string;
   dateEnd: string | null;
   summary: string;
-  /** Per-job skill tags (rendered as chips in the timeline card). */
+  /** Per-job skill tags, rendered as chips in the timeline card. */
   skills: string[];
 }
 
-// Condensed from CV_DevOps_Dana_2026.pdf / CV_IT_Infra_Dana_2026.pdf.
+// Condensed from CV_DevOps_Figo_2026.pdf.
 export const experience: ExperienceEntry[] = [
   {
     company: 'Indonesian Oil Palm Plantations Fund Management Agency',
     role: 'IT Infra Specialist',
-    displayDate: '2026 — PRESENT',
+    displayDate: '2026 - PRESENT',
     dateStart: '2026-01-01',
     dateEnd: null,
     summary:
-      'Managing on-prem infrastructure and platform operations for 10+ business-critical applications: Proxmox virtualization, GitLab CI/CD administration, service availability and incident response.',
+      'Operating on-prem infrastructure and platform services for 10+ business-critical applications: Linux and Proxmox VMs, GitLab/GitLab Runner CI/CD, Docker, reverse proxies, Restic backup recovery, availability checks, and incident response.',
     skills: [
       'Proxmox',
       'GitLab CI/CD',
+      'Docker',
+      'Restic',
       'Linux',
       'Incident Response',
-      'On-Prem Infrastructure',
     ],
   },
   {
     company: 'PT. Mastersystem Infotama Tbk',
     role: 'Network Engineer',
-    displayDate: '2023 — 2026',
+    displayDate: '2023 - 2026',
     dateStart: '2023-10-01',
     dateEnd: '2026-01-01',
     summary:
-      'Supported nationwide branch operations (1000+ sites) for PT. Bank Central Asia Tbk — SD-WAN/I-WAN troubleshooting, Cisco ACI fabrics (APIC, Nexus), UCS/VMware ESXi clusters under change control.',
+      'Supported nationwide branch operations across 1,000+ sites for PT Bank Central Asia Tbk: SD-WAN/I-WAN troubleshooting, Cisco ACI fabrics (APIC, Nexus), Cisco UCS, and VMware ESXi under controlled change and capacity-management processes.',
     skills: [
       'Cisco ACI',
       'SD-WAN',
@@ -48,11 +49,11 @@ export const experience: ExperienceEntry[] = [
   {
     company: 'PT. Presentologics (Dicoding)',
     role: 'Mentor & Advisor, Independent Study',
-    displayDate: '2023 — 2024',
+    displayDate: '2023 - 2024',
     dateStart: '2023-07-01',
     dateEnd: '2024-06-01',
     summary:
-      'Guided 30 students through fullstack web development and DevOps (Docker, Kubernetes) tracks, reaching an 85% batch completion rate.',
+      'Mentored 30 students in Docker, Kubernetes, full-stack development, deployment fundamentals, and project troubleshooting, contributing to an 85% completion rate.',
     skills: [
       'Mentoring',
       'Docker',
@@ -68,7 +69,7 @@ export const experience: ExperienceEntry[] = [
     dateStart: '2022-09-01',
     dateEnd: '2022-12-01',
     summary:
-      'Maintained and extended the Laravel-based Nusabot.id platform — backend integration for 7+ new pages and database optimizations improving query performance by 15%.',
+      'Maintained and enhanced Laravel backend features, collaborating on page and API integration for 7+ platform pages while improving database queries and data structures.',
     skills: ['Laravel', 'PHP', 'MySQL', 'REST API', 'Query Optimization'],
   },
 ];

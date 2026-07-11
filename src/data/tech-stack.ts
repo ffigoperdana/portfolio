@@ -1,11 +1,12 @@
 import type { IconName } from './icons';
+
 export interface TechGroup {
   label: string;
   icon: IconName;
   items: string[];
 }
-// Grouping mirrors the CV skills sections + Figo's 2026-07 additions
-// (frameworks, databases, messaging, cloud, MikroTik, tools).
+
+// Grouping mirrors the skills sections in CV_DevOps_Figo_2026.pdf.
 export const techStack: TechGroup[] = [
   {
     label: 'Infrastructure & Systems',
@@ -17,6 +18,8 @@ export const techStack: TechGroup[] = [
       'VMware ESXi',
       'Active Directory',
       'DNS',
+      'SSL/TLS',
+      'Reverse Proxy',
     ],
   },
   {
@@ -24,17 +27,19 @@ export const techStack: TechGroup[] = [
     icon: 'container',
     items: [
       'Docker',
+      'Docker Compose',
       'Kubernetes',
       'Terraform',
       'Ansible',
       'GitLab CI/CD',
+      'GitHub Actions',
       'Jenkins',
     ],
   },
   {
     label: 'Cloud Platforms',
     icon: 'cloud',
-    items: ['AWS', 'Alibaba Cloud', 'Microsoft Azure', 'DigitalOcean'],
+    items: ['AWS', 'GCP', 'Microsoft Azure', 'Alibaba Cloud'],
   },
   {
     label: 'Networking & Security',
@@ -49,7 +54,17 @@ export const techStack: TechGroup[] = [
   {
     label: 'Monitoring & Operations',
     icon: 'activity',
-    items: ['Grafana', 'Prometheus', 'Zabbix', 'Incident Response', 'Runbooks'],
+    items: [
+      'Prometheus',
+      'Grafana',
+      'Loki',
+      'Alloy',
+      'Blackbox Exporter',
+      'Node Exporter',
+      'Zabbix',
+      'Restic',
+      'Incident Response',
+    ],
   },
   {
     label: 'Programming & Frameworks',
@@ -68,6 +83,14 @@ export const techStack: TechGroup[] = [
   {
     label: 'Tools & Platforms',
     icon: 'wrench',
-    items: ['GitLab', 'GitHub', 'Coolify'],
+    items: [
+      'GitLab',
+      'GitHub',
+      'Nginx',
+      'Apache',
+      'PM2',
+      'Coolify',
+      'Portainer',
+    ],
   },
 ];

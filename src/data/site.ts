@@ -11,22 +11,20 @@ export interface ResumeVariant {
 export interface Web3Identity {
   ens: string;
   cloakedName: string;
-  /** Live rotating-address payment page (fgdev.clkd.id) — addresses rotate,
-   *  so the site links/QRs to this page instead of embedding a raw address. */
+  /** Live rotating-address payment page; addresses rotate, so the site links
+   *  to this page instead of embedding a raw address. */
   payUrl: string;
-  /** One captured rotating address, shown as an explicit SNAPSHOT (the live
-   *  page mints a fresh one per payment). Captured 2026-07-03. */
+  /** One captured rotating address, shown as an explicit snapshot. */
   addressSnapshot: string;
 }
 
 export interface SiteConfig {
   name: string;
-  /** Terminal-style display handle used in the header/hero. */
+  /** Terminal-style display handle used in the header and hero. */
   handle: string;
-  /** Rotated in the hero role glitch animation; roles[0] is the static
-   *  fallback for no-JS and reduced-motion. */
+  /** Rotated in the hero role animation; roles[0] is the no-JS fallback. */
   roles: string[];
-  /** Single-line role for <title>/meta/JSON-LD. */
+  /** Single-line role for title, meta, and JSON-LD. */
   metaRole: string;
   description: string;
   email: string;
@@ -42,19 +40,17 @@ export const site: SiteConfig = {
   handle: 'FIGO_PERDANA',
   roles: [
     'DevOps Engineer',
+    'Infrastructure Engineer',
     'Network Engineer',
-    'Software Engineer',
     'IT Infra Specialist',
     'System Engineer',
   ],
-  metaRole: 'DevOps & Network Infrastructure Engineer',
-  // Condensed from his own CV "About me" paragraph.
+  metaRole: 'DevOps & Infrastructure Engineer',
   description:
-    'Engineer with hands-on experience building secure, scalable applications and the infrastructure behind them — Docker, Kubernetes, Terraform and Ansible for orchestration and IaC, CI/CD on GitLab and Jenkins, with a strong foundation in network engineering and full-stack development.',
+    'DevOps & Infrastructure Engineer with 3+ years of experience operating Linux platforms and application delivery for 10+ business-critical services. Hands-on with Proxmox, Docker, GitLab CI/CD, observability, backup recovery, and incident response - backed by a software engineering and enterprise network foundation.',
   email: 'perdanaputrafigo@gmail.com',
   location: 'Jakarta, Indonesia',
   timezone: 'WIB (UTC+7)',
-  // TODO_CONTENT: confirm the availability statement with Figo
   availability: 'Open for selected freelance & collaboration',
   web3: {
     ens: 'fgdev.eth',
@@ -76,7 +72,6 @@ export const site: SiteConfig = {
       available: true,
     },
     {
-      // TODO_CONTENT: publish when the Software Engineer CV is ready
       label: 'RESUME_SOFTWARE_ENGINEER',
       slug: 'software-engineer',
       path: '/resume/figo-perdana-software-engineer.pdf',

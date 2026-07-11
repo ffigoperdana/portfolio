@@ -1,11 +1,11 @@
 ---
 title: 'MSI Automation Platform'
-summary: 'Network automation platform for PT. Mastersystem Infotama — React and Prisma driving Ansible playbooks, containerized with CI/CD on GitHub Actions.'
+summary: 'Network automation platform for PT. Mastersystem Infotama: React and Prisma driving Ansible playbooks, containerized with CI/CD on GitHub Actions.'
 category: professional
-role: 'Fullstack Developer (Contract)'
-dateStart: 2024-05-01
-dateEnd: 2025-12-01
-displayDate: '2024 — 2025'
+role: 'Fullstack Developer'
+dateStart: 2025-01-01
+dateEnd: 2026-01-01
+displayDate: '2025 - 2026'
 technologies:
   [
     'React',
@@ -19,34 +19,22 @@ technologies:
 featured: true
 repositoryUrl: 'https://github.com/ffigoperdana/msti-automation'
 coverImage: '../../assets/covers/msti-automation.png'
-coverAlt: 'MSI Automation Platform — interface preview'
+coverAlt: 'MSI Automation Platform interface preview'
 draft: false
 ---
 
 ## Overview
 
-Network automation platform built for PT. Mastersystem Infotama Tbk: a web
-interface for running and managing Ansible-driven network operations,
-replacing manual CLI workflows.
-
-<!-- TODO_CONTENT: expand — which network operations were automated,
-     who the users were (network engineers?), scale. -->
+Network automation platform built for PT. Mastersystem Infotama Tbk. It gives network engineers controlled, web-based execution of routine network operations instead of relying on manual CLI workflows.
 
 ## Problem
 
-<!-- TODO_CONTENT -->
+Manual execution made repeatability, deployment visibility, and rollback harder to manage across operational workflows.
 
 ## Architecture
 
-Designed and implemented with React on the front end, Prisma for data access,
-and Ansible as the execution engine. Docker for containerization and GitHub
-Actions for continuous integration and deployment.
+Designed and implemented with React and TypeScript on the front end, Prisma for data access, Python and Ansible as the execution engine. The service is containerized with Docker and uses GitHub Actions, health checks, deployment scripts, rollback procedures, and technical documentation.
 
-<!-- TODO_CONTENT: diagram/detail — how the web layer triggers playbooks,
-     inventory management, auth. -->
+## Operational readiness
 
-## Results
-
-Improved data accessibility by 35% (per project records).
-
-<!-- TODO_CONTENT: verify metric and add operational outcomes. -->
+Health checks, deployment scripts, rollback procedures, and documentation support controlled day-to-day operation.
